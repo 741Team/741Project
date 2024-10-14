@@ -15,7 +15,7 @@ public class CreateGrid : MonoBehaviour
 
     private float _gridSpacing;
 
-    public GameObject[][] _grid;
+    private GameObject[][] _grid;
    
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,14 @@ public class CreateGrid : MonoBehaviour
         }
         BoxCollider tileCollider = _gridTile.GetComponent<BoxCollider>();
         _gridSpacing = (tileCollider.size.x * _tileSize);
-        CreateTiles();
+        GameObject gridStorage = CreateTiles();
+
+        GridManager gridManager = FindAnyObjectByType<GridManager>();
+        if (gridManager != null)
+        {
+            gridManager.SetGrid(gridStorage,_grid);
+            gridStorage.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +43,7 @@ public class CreateGrid : MonoBehaviour
         
     }
 
-    void CreateTiles()
+    GameObject CreateTiles()
     {
         GameObject gridObject = new GameObject();
         gridObject.name = "GridStorage";
@@ -60,9 +67,10 @@ public class CreateGrid : MonoBehaviour
                 GameObject newTile = Instantiate(_gridTile, new Vector3(x, 0.2f, z), _gridTile.transform.rotation);
                 newTile.transform.localScale = newTile.transform.localScale * _tileSize;
                 newTile.transform.parent = gridObject.transform;
+                newTile.GetComponent<Tile>().SetXAndY(i,j);
                 _grid[i][j] = newTile;
             }
         }
-        gridObject.SetActive(false);
+        return gridObject;
     }
 }
