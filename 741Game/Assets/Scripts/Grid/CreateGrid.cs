@@ -35,6 +35,7 @@ public class CreateGrid : MonoBehaviour
             gridManager.SetGrid(gridStorage,_grid);
             gridStorage.SetActive(false);
         }
+
     }
 
     // Update is called once per frame
