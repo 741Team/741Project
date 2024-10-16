@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour
     [SerializeField]
     GameObject _occupant;
     SpriteRenderer spriteRenderer;
+    GridManager _gridManager;
 
     public int _x;
     public int _y;
@@ -16,13 +17,8 @@ public class Tile : MonoBehaviour
 
     void Start()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-  
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        _gridManager = FindAnyObjectByType<GridManager>();
     }
 
     public void ColourChange(Color color)
@@ -51,4 +47,22 @@ public class Tile : MonoBehaviour
         return _occupant;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            SetOccupant(other.gameObject);
+            _gridManager.SetPlayerTile(this);
+        }
+        else if(other.gameObject.tag == "Enemy")
+        {
+            SetOccupant(other.gameObject);
+        }
+    }
+
+    public void SetXAndY(int x, int y)
+    {
+        _x = x;
+        _y = y;
+    }
 }
