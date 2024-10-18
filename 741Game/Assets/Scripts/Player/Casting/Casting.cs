@@ -55,6 +55,7 @@ public class Casting : MonoBehaviour
                 boltScript.SetAdjustments(_usedAdjustments);
                 boltScript.ApplyAdjustments();
                 boltScript.FireBolt();
+                _usedAdjustments = null;
             }
         }
         else

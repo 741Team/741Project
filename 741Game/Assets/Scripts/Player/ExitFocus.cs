@@ -7,11 +7,13 @@ public class ExitFocus : MonoBehaviour
     public KeyCode _inputKey;
     FocusMode _focusMode;
     EnterFocus _enterFocus;
+    Movement _movement;
     // Start is called before the first frame update
     void Start()
     {
         _focusMode = GetComponent<FocusMode>();
         _enterFocus = GetComponent<EnterFocus>();
+        _movement = GetComponent<Movement>();
         enabled = false;
     }
 
@@ -24,6 +26,7 @@ public class ExitFocus : MonoBehaviour
             {
                 _focusMode.enabled = false;
                 _enterFocus.enabled = true;
+                _movement.enabled = true;
                 enabled = false;
             }
         }
