@@ -75,6 +75,8 @@ public class AnimateGridLines : MonoBehaviour
         lineStorage.SetActive(false);
     }
 
+
+
     IEnumerator AnimateLine(LineRenderer l)
     {
         float startTime = Time.time;
@@ -91,6 +93,12 @@ public class AnimateGridLines : MonoBehaviour
         }
 
     }
+
+    public void AdjustLinePoints()
+    {
+
+    }
+
 
     public void EnableLines()
     {
