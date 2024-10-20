@@ -67,8 +67,7 @@ public class Bolt : MonoBehaviour
         {
             if (_currentPoint + 1 < _points.Count)
             {
-                Vector3 boltDirection = Vector3.Normalize(_points[_currentPoint + 1] - transform.position);
-                transform.Translate(boltDirection * _speed * Time.deltaTime);
+                transform.position =  Vector3.MoveTowards(transform.position, _points[_currentPoint + 1], _speed * Time.deltaTime);
                 if(Vector3.Distance(transform.position, _points[_currentPoint + 1]) < 0.1)
                 {
                     _currentPoint += 1;
@@ -81,6 +80,11 @@ public class Bolt : MonoBehaviour
             }
         }
 
+    }
+
+    public bool IsBoltEnded()
+    {
+        return _ended;
     }
 
 }

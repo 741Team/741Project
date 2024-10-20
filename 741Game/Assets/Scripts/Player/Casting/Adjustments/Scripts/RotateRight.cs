@@ -8,5 +8,20 @@ public class RotateRight : Adjustment
     {
         float newX = direction.y * -1;
         direction = new Vector2(newX, direction.x);
+
+        int x = tile._x + (int)direction.x;
+        int y = tile._y + (int)direction.y;
+
+        if (gridManager != null)
+        {
+            GameObject newTile = gridManager.GetTile(x, y);
+            if (newTile != null)
+            {
+                Vector3 newTilePos = newTile.transform.position;
+                Vector3 newPoint = new Vector3(newTilePos.x, points[0].y, newTilePos.z);
+                tile = newTile.GetComponent<Tile>();
+                points.Add(newPoint);
+            }
+        }
     }
 }

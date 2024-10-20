@@ -8,9 +8,12 @@ public class ExitFocus : MonoBehaviour
     FocusMode _focusMode;
     EnterFocus _enterFocus;
     Movement _movement;
+    CharacterAnimations _characterAnimations;
+
     // Start is called before the first frame update
     void Start()
     {
+        _characterAnimations = GetComponent<CharacterAnimations>();
         _focusMode = GetComponent<FocusMode>();
         _enterFocus = GetComponent<EnterFocus>();
         _movement = GetComponent<Movement>();
@@ -24,11 +27,18 @@ public class ExitFocus : MonoBehaviour
         {
             if (Input.GetKeyDown(_inputKey))
             {
-                _focusMode.enabled = false;
-                _enterFocus.enabled = true;
-                _movement.enabled = true;
-                enabled = false;
+
+                FocusOver();
             }
         }
+    }
+
+    public void FocusOver()
+    {
+        _characterAnimations.ExitFocus();
+        _focusMode.enabled = false;
+        _enterFocus.enabled = true;
+        _movement.enabled = true;
+        enabled = false;
     }
 }

@@ -36,6 +36,8 @@ public class Movement : MonoBehaviour
     public float damage;
 
     [SerializeField] private GameObject sword;
+    
+    private CharacterAnimations _characterAnimations;
 
     void Start()
     {
@@ -51,6 +53,7 @@ public class Movement : MonoBehaviour
         allowedToJump = true;
 
         damage = 0;
+        _characterAnimations = GetComponent<CharacterAnimations>();
     }
 
     void Update()
@@ -77,35 +80,40 @@ public class Movement : MonoBehaviour
 
         if (movement.x == 1 & movement.z == 2)
         {
-            look = new Vector3(0,0,0);
+            look = new Vector3(0,90,0);
         }
         else if (movement.x == 1 & movement.z == 0)
         {
-            look = new Vector3(0,45,0);
+            look = new Vector3(0,135,0);
         }
         else if (movement.x == 1 & movement.z == -2)
         {
-            look = new Vector3(0,90,0);
+            look = new Vector3(0,180,0);
         }
         else if (movement.x == 0 & movement.z == -2)
         {
-            look = new Vector3(0,135,0);
+            look = new Vector3(0,225,0);
         }
         else if (movement.x == -1 & movement.z == -2)
         {
-            look = new Vector3(0,180,0);
+            look = new Vector3(0,270,0);
         }
         else if (movement.x == -1 & movement.z == 0)
         {
-            look = new Vector3(0,225,0);
+            look = new Vector3(0,315,0);
         }
         else if (movement.x == -1 & movement.z == 2)
         {
-            look = new Vector3(0,270,0);
+            look = new Vector3(0,360,0);
         }
         else if (movement.x == 0 & movement.z == 2)
         {
-            look = new Vector3(0,315,0);
+            look = new Vector3(0,45,0);
+        }
+
+        if(_characterAnimations != null)
+        {
+            _characterAnimations.SetSpeed(movement.magnitude);
         }
     }
 
@@ -159,6 +167,10 @@ public class Movement : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        if(_characterAnimations != null)
+        {
+            _characterAnimations.Attack();
+        }
         damage = maxDamage;
         var swordRenderer = sword.GetComponent<Renderer>();
         Color red = new Color(1f, 0f, 0f, 1f);
