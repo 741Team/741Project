@@ -40,15 +40,6 @@ public class AnimateGridLines : MonoBehaviour
             lineRenderer.material = _lineMaterial;
             lineRenderer.startColor = _color;
             lineRenderer.endColor = _color;
-            GameObject startTile = gridManager.GetTile(i, 0);
-            GameObject endTile = gridManager.GetTile(i, grid[i].Length - 1);
-            float tileScale = startTile.transform.localScale.x;
-            float startX = startTile.GetComponent<BoxCollider>().bounds.center.x + (startTile.GetComponent <BoxCollider>().bounds.extents.x * tileScale);
-            float endX = endTile.GetComponent<BoxCollider>().bounds.center.x + (endTile.GetComponent<BoxCollider>().bounds.extents.x * tileScale);
-            Vector3 endPos = new Vector3(startX, startTile.transform.position.y,startTile.transform.position.z);
-            Vector3 startPos = new Vector3(endX, endTile.transform.position.y, endTile.transform.position.z);
-            lineRenderer.SetPosition(0, startPos);
-            lineRenderer.SetPosition(1, endPos);
             horizontalLines.Add(lineRenderer);
         }
         for (int j = 0; j < grid.Length; j++)
@@ -61,21 +52,10 @@ public class AnimateGridLines : MonoBehaviour
             lineRenderer.material = _lineMaterial;
             lineRenderer.startColor = _color;
             lineRenderer.endColor = _color;
-            GameObject startTile = gridManager.GetTile(0, j);
-            GameObject endTile = gridManager.GetTile(grid[0].Length - 1, j);
-            float tileScale = startTile.transform.localScale.z;
-            float startZ = startTile.GetComponent<BoxCollider>().bounds.center.z + (startTile.GetComponent<BoxCollider>().bounds.extents.z * tileScale);
-            float endZ = endTile.GetComponent<BoxCollider>().bounds.center.z + (endTile.GetComponent<BoxCollider>().bounds.extents.z * tileScale);
-            Vector3 endPos = new Vector3(startTile.transform.position.x, startTile.transform.position.y, startZ);
-            Vector3 startPos = new Vector3(endTile.transform.position.x, endTile.transform.position.y, endZ);
-            lineRenderer.SetPosition(0, startPos);
-            lineRenderer.SetPosition(1, endPos);
             verticalLines.Add(lineRenderer);
         }
         lineStorage.SetActive(false);
     }
-
-
 
     IEnumerator AnimateLine(LineRenderer l)
     {
@@ -96,13 +76,54 @@ public class AnimateGridLines : MonoBehaviour
 
     public void AdjustLinePoints()
     {
+        GameObject[][] grid = gridManager.GetGrid();
+        for (int i = 0; i < grid.Length; i++)
+        {
+            LineRenderer l = horizontalLines[i];
+            GameObject startTile = gridManager.GetTile(i, 0);
+            GameObject endTile = gridManager.GetTile(i, grid[i].Length - 1);
+            float tileScale = startTile.transform.localScale.x;
+            float startX = startTile.transform.position.x + (startTile.GetComponent<BoxCollider>().bounds.extents.x );
+            float endX = endTile.transform.position.x + (endTile.GetComponent<BoxCollider>().bounds.extents.x );
+            Vector3 endPos = new Vector3(startX, startTile.transform.position.y, startTile.transform.position.z);
+            Vector3 startPos = new Vector3(endX, endTile.transform.position.y, endTile.transform.position.z);
+            l.SetPosition(0, startPos);
+            l.SetPosition(1, endPos);
+        }
+        for (int j = 0; j < grid.Length; j++)
+        {
+            LineRenderer lineRenderer = verticalLines[j];
+            GameObject startTile = gridManager.GetTile(0, j);
+            GameObject endTile = gridManager.GetTile(grid[0].Length - 1, j);
+            float tileScale = startTile.transform.localScale.z;
+            float startZ = startTile.transform.position.z + (startTile.GetComponent<BoxCollider>().bounds.extents.z );
+            float endZ = endTile.transform.position.z + (endTile.GetComponent<BoxCollider>().bounds.extents.z );
+            Vector3 endPos = new Vector3(startTile.transform.position.x, startTile.transform.position.y, startZ);
+            Vector3 startPos = new Vector3(endTile.transform.position.x, endTile.transform.position.y, endZ);
+            lineRenderer.SetPosition(0, startPos);
+            lineRenderer.SetPosition(1, endPos);
+        }
+    }
 
+    public void AdjustLineColours(Color color)
+    {
+        foreach (LineRenderer l in horizontalLines)
+        {
+            l.startColor = color;
+            l.endColor = color;
+        }
+        foreach (LineRenderer l in verticalLines)
+        {
+            l.startColor = color;
+            l.endColor = color;
+        }
     }
 
 
     public void EnableLines()
     {
         lineStorage.SetActive(true);
+        AdjustLinePoints();
         foreach (LineRenderer l in horizontalLines)
         {
             StartCoroutine(AnimateLine(l));
@@ -117,9 +138,9 @@ public class AnimateGridLines : MonoBehaviour
     {
         lineStorage.SetActive(false);
     }
-    // Update is called once per frame
-    void Update()
+
+    public Color GetColor()
     {
-        
+        return _color;
     }
 }

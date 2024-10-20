@@ -16,6 +16,7 @@ public class GridManager : MonoBehaviour
     {
        _animateGridLines = GetComponent<AnimateGridLines>();
     }
+
     public void SetGrid(GameObject gridStorage, GameObject[][] grid)
     {
         _gridStorage = gridStorage;
@@ -39,11 +40,11 @@ public class GridManager : MonoBehaviour
         {
             Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
             _gridStorage.SetActive(true);
-            _animateGridLines.EnableLines();
             if (playerPos != null) { 
                 Vector3 gridPos = new Vector3(playerPos.x, 0, playerPos.z);
                 _gridStorage.transform.position = gridPos;
             }
+            _animateGridLines.EnableLines();
         }
     }
 
@@ -54,6 +55,13 @@ public class GridManager : MonoBehaviour
             _gridStorage.SetActive(false);
             _animateGridLines.DisableLines();
         }
+    }
+
+    public void SetLineAlpha(float alpha)
+    {
+        Color color = _animateGridLines.GetColor();
+        color.a = alpha;
+        _animateGridLines.AdjustLineColours(color);
     }
 
     public GameObject GetTile(int x, int y)

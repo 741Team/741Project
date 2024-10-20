@@ -15,8 +15,19 @@ public class Casting : MonoBehaviour
     [SerializeField]
     GameObject _bolt;
     Dictionary<KeyCode, Adjustment> _adjustmentInputs;
+    CharacterAnimations _characterAnimations;
+    ExitFocus _exitFocus;
+
+    bool _canInput = false;
     // Start is called before the first frame update
     void Start()
+    {
+        _characterAnimations = GetComponent<CharacterAnimations>();
+        _exitFocus = GetComponent<ExitFocus>();
+
+    }
+
+    private void OnEnable()
     {
         _adjustmentInputs = new Dictionary<KeyCode, Adjustment>();
         foreach (Adjustment a in _availableAdjustments)
@@ -25,22 +36,32 @@ public class Casting : MonoBehaviour
         }
     }
 
+    public void EnableInputs(bool enable)
+    {
+        _canInput = enable;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (_canInput)
         {
-            foreach (KeyCode key in _adjustmentInputs.Keys)
+            if (Input.anyKeyDown)
             {
-                if (Input.GetKey(key))
+                foreach (KeyCode key in _adjustmentInputs.Keys)
                 {
-                    _usedAdjustments.Add(_adjustmentInputs[key]);
+                    if (Input.GetKey(key))
+                    {
+                        _usedAdjustments.Add(_adjustmentInputs[key]);
+                    }
+                }
+                if (Input.GetKeyDown(_inputKey))
+                {
+                    CastSpell();
                 }
             }
-            if (Input.GetKeyDown(_inputKey)) {
-                CastSpell();
-            }
         }
+
     }
 
     void CastSpell()
@@ -55,7 +76,10 @@ public class Casting : MonoBehaviour
                 boltScript.SetAdjustments(_usedAdjustments);
                 boltScript.ApplyAdjustments();
                 boltScript.FireBolt();
-                _usedAdjustments = null;
+                _characterAnimations.Cast();
+                _usedAdjustments.Clear();
+                EnableInputs(false);
+                StartCoroutine(WaitForBolt(boltScript));
             }
         }
         else
@@ -63,6 +87,30 @@ public class Casting : MonoBehaviour
             Debug.LogError("Bolt object missing from casting");
         }
 
+    }
+
+    public void OutOfTIme()
+    {
+        if (_usedAdjustments.Count > 0)
+        {
+            CastSpell();
+        }
+        else
+        {
+            _exitFocus.FocusOver();
+        }
+    }
+
+    IEnumerator WaitForBolt(Bolt bolt)
+    {
+        bool ended = false;
+
+        while (!ended)
+        {
+            ended = bolt.IsBoltEnded();
+            yield return null;
+        }
+        _exitFocus.FocusOver();
     }
 
 
