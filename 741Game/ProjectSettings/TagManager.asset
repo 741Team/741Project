@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Ground
   - Weapon
+  - Arrow
   layers:
   - Default
   - TransparentFX

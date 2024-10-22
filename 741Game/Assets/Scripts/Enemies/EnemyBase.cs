@@ -16,9 +16,11 @@ public class EnemyBase : MonoBehaviour
 
     private void Start()
     {
+        ///Setup objects from item manager
         player = ItemManager.singleton.Player;
         canvas = ItemManager.singleton.enemyCanvas;
 
+        ///Setup health
         health = maxHealth;
         healthBar.Setup(maxHealth);
         healthBar.transform.SetParent(canvas.transform);
@@ -32,7 +34,7 @@ public class EnemyBase : MonoBehaviour
             Death();
         }
 
-        if (hittable & player.damage > 0)
+        if (hittable & touchingPlayer)
         {
             hittable = false;
             StartCoroutine(Hit(player.damage));
@@ -41,13 +43,11 @@ public class EnemyBase : MonoBehaviour
 
     private IEnumerator Hit(float damage)
     {
+        ///deal damage, then wait before enemy can be hit again
         health = health - damage;
         healthBar.Decrease(damage);
         yield return new WaitForSeconds(immunityTime);
-        if (touchingPlayer)
-        {
-            hittable = true;
-        }
+        hittable = true;
     }
 
     private void Death()
