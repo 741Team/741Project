@@ -13,12 +13,14 @@ public class EnemyBase : MonoBehaviour
     private bool touchingPlayer;
     [SerializeField] private float immunityTime;
     private bool hittable;
+    private Bar focusBar;
 
     private void Start()
     {
         ///Setup objects from item manager
         player = ItemManager.singleton.Player;
         canvas = ItemManager.singleton.enemyCanvas;
+        focusBar = ItemManager.singleton.focusBar;
 
         ///Setup health
         health = maxHealth;
@@ -44,6 +46,7 @@ public class EnemyBase : MonoBehaviour
     private IEnumerator Hit(float damage)
     {
         ///deal damage, then wait before enemy can be hit again
+        focusBar.Increase(1000);
         health = health - damage;
         healthBar.Decrease(damage);
         yield return new WaitForSeconds(immunityTime);

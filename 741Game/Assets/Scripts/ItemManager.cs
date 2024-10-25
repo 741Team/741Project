@@ -9,6 +9,7 @@ public class ItemManager : MonoBehaviour
     public Movement Player;
     public Canvas enemyCanvas;
     public Camera mainCamera;
+    public Bar focusBar;
 
     protected void Awake()
     {
