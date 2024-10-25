@@ -7,14 +7,25 @@ public class Bar : MonoBehaviour
 {
     [SerializeField] private Slider slider;
     [SerializeField] private float value;
+    private float MaxValue;
 
     [SerializeField] private bool refillable;
     [SerializeField] private float refillRate;
 
+    [SerializeField] private bool FocusBar;
+    [SerializeField] private float focusRefillRate;
+
+    private bool canEnterFocus;
+
     public void Setup(float maxValue)
     {
+        MaxValue = maxValue;
         slider.maxValue = maxValue;
         slider.value = maxValue;
+        if (FocusBar)
+        {
+            Reset();
+        }
     }
     
     public void Increase(float plus)
@@ -32,11 +43,32 @@ public class Bar : MonoBehaviour
         slider.value = val;
     }
 
+    private void Update()
+    {
+        if (FocusBar & slider.value == MaxValue & canEnterFocus)
+        {
+            Debug.Log("Enter Focus Mode");
+            canEnterFocus = false;
+            Reset();
+        }
+    }
+
+    private void Reset()
+    {
+        slider.value = 0f;
+        canEnterFocus = true;
+    }
+
     private void FixedUpdate()
     {
         if (refillable)
         {
             slider.value = slider.value + refillRate;
+        }
+
+        if (FocusBar & canEnterFocus)
+        {
+            slider.value = slider.value + focusRefillRate;
         }
     }
 }

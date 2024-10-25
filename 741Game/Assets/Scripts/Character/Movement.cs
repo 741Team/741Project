@@ -19,6 +19,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private float dashCooldown;
     private bool canDash;
 
+    [SerializeField] private Bar focusBar;
+
     private Canvas canvas;
     Vector3 movement;
     Vector3 IsoMovement;
@@ -51,6 +53,8 @@ public class Movement : MonoBehaviour
         ///Setup Health System
         health = maxHealth;
         healthBar.Setup(maxHealth);
+
+        focusBar.Setup(10000);
 
         AllowedToMove = true;
 
@@ -127,7 +131,7 @@ public class Movement : MonoBehaviour
             look = new Vector3(0,45,0);
         }
 
-        if(_characterAnimations != null)
+        if(_characterAnimations != null && AllowedToMove)
         {
             _characterAnimations.SetSpeed(movement.magnitude);
         }
