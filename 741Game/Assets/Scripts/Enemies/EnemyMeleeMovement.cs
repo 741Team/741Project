@@ -2,40 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMeeleMovement : MonoBehaviour
+public class EnemyMeleeMovement : EnemyBase
 {
     private Vector3 velocity = Vector3.zero;
     [SerializeField] private float speed;
     [SerializeField] private float movementFrequency;
-    private bool playerInRange;
 
-    private Movement player;
 
-    [SerializeField] private EnemyBase Base;
 
-    [SerializeField] private PlayerDetector pd;
-
-    private Vector3 playerPosition;
-
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         ///Setup objects from item manager
-        player = ItemManager.singleton.Player;
         playerPosition = transform.position;
 
         ///Setup movement loop
         StartCoroutine(MoveToPlayer());
     }
 
-    private void Update()
+    public override void Update()
     {
-        ///check if player is in range
-        playerInRange = pd.playerInRange;
-
+        base.Update();
         ///move to player, if in range
-        if (playerInRange)
+        if (playerInRange && allowedToMove)
         {
-            Base.transform.position = Vector3.SmoothDamp(transform.position, playerPosition, ref velocity, speed);
+            transform.position = Vector3.SmoothDamp(transform.position, playerPosition, ref velocity, speed);
         }
     }
 
@@ -44,7 +35,7 @@ public class EnemyMeeleMovement : MonoBehaviour
         ///If in range, set target position to player position, and then wait
         if (playerInRange)
         {
-            playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+
             yield return new WaitForSeconds(movementFrequency);
         }
         ///or if not in range, repeat unitl in range

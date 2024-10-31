@@ -7,7 +7,7 @@ public class ExitFocus : MonoBehaviour
     public KeyCode _inputKey;
     FocusMode _focusMode;
     EnterFocus _enterFocus;
-    Movement _movement;
+    PlayerController _movement;
     CharacterAnimations _characterAnimations;
 
     // Start is called before the first frame update
@@ -16,7 +16,7 @@ public class ExitFocus : MonoBehaviour
         _characterAnimations = GetComponent<CharacterAnimations>();
         _focusMode = GetComponent<FocusMode>();
         _enterFocus = GetComponent<EnterFocus>();
-        _movement = GetComponent<Movement>();
+        _movement = GetComponent<PlayerController>();
         enabled = false;
     }
 
@@ -38,7 +38,11 @@ public class ExitFocus : MonoBehaviour
         _characterAnimations.ExitFocus();
         _focusMode.enabled = false;
         _enterFocus.enabled = true;
-        _movement.enabled = true;
+        _movement.Unfreeze();
+        foreach (EnemyBase enemy in EnemyManager.singleton.GetEnemyList())
+        {
+            enemy.Unfreeze();
+        }
         enabled = false;
     }
 }

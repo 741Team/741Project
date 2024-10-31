@@ -274,10 +274,11 @@ GameObject:
   - component: {fileID: 8870177201987850087}
   - component: {fileID: 4465785174091321238}
   - component: {fileID: 3628129762975199184}
-  - component: {fileID: -839889153129758631}
-  - component: {fileID: 6581633317343805493}
+  - component: {fileID: 7867254293112708748}
+  - component: {fileID: 5061212226724499910}
+  - component: {fileID: 899698221439949512}
   m_Layer: 0
-  m_Name: Enemy Meele
+  m_Name: Enemy Ranged
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -371,7 +372,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-839889153129758631
+--- !u!114 &7867254293112708748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -380,27 +381,64 @@ MonoBehaviour:
   m_GameObject: {fileID: 7052433354582369260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f052ea8c58e71e24baf8c7b6575f0dc7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e318ea97273636409eec668d1306688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
   healthBar: {fileID: 6967336724626653844}
   HealthBar: {fileID: 3804211565856024183}
   immunityTime: 1
-  playerPosition: {x: 0, y: 0, z: 0}
---- !u!114 &6581633317343805493
-MonoBehaviour:
+  pd: {fileID: 1439451215664726655}
+  focusOnHit: 10
+  reloadTime: 2
+  arrow: {fileID: 8365130511761430011, guid: 1a5024b0dc1547e4d803eae3184257bc, type: 3}
+--- !u!136 &5061212226724499910
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7052433354582369260}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29ab8f6c488d2ad46974d80b8f6f4388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.5
-  movementFrequency: 2
-  Base: {fileID: -839889153129758631}
-  pd: {fileID: 1439451215664726655}
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &899698221439949512
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052433354582369260}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
