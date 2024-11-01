@@ -11,6 +11,7 @@ public class FocusMode : MonoBehaviour
     PlayerController _playerController;
     private float maxFocus = 0;
     private float decreaseRate = 1;
+    private Vector2 _gridDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class FocusMode : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerDirectionToGridDirection();
         if (_playerController != null)
         {
             maxFocus = _playerController.GetMaxFocus();
@@ -49,6 +51,7 @@ public class FocusMode : MonoBehaviour
         {
             _casting.enabled = true;
             _casting.EnableInputs(true);
+            _casting.SetDirection(_gridDirection);
         }
     }
     private void OnDisable()
@@ -62,4 +65,43 @@ public class FocusMode : MonoBehaviour
             _casting.enabled = false;
         }
     }
+
+
+    void PlayerDirectionToGridDirection()
+    {
+        int[] possibleDirections = { 0, 90, 180, 270 };
+        int closestDirection = 0;
+        int angleDifference = 180;
+        float playerAngle = transform.eulerAngles.y;
+        foreach (int direction in possibleDirections)
+        {
+            int newDifference = Mathf.Abs(direction - (int)playerAngle);
+            if (newDifference < angleDifference)
+            {
+                angleDifference = newDifference;
+                closestDirection = direction;
+            }
+        }
+        Vector3 newRotation = new Vector3(transform.eulerAngles.x, closestDirection, transform.eulerAngles.z);
+        transform.eulerAngles = newRotation;
+        Vector2 gridDirection = Vector2.zero;
+        switch (closestDirection)
+        {
+            case 0:
+                gridDirection = Vector2.down;
+                break;
+            case 90:
+                gridDirection = Vector2.right;
+                break;
+            case 180:
+                gridDirection = Vector2.up;
+                break;
+            case 270:
+                gridDirection = Vector2.left;
+                break;
+        }
+        _gridDirection = gridDirection;
+    }
+
+
 }

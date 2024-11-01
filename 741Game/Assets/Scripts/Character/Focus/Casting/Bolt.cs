@@ -31,13 +31,16 @@ public class Bolt : MonoBehaviour
         _ended = false;
         _started = false;
 
-        //CHANGE THIS TO MATCH PLAYER DIRECTION
-        _direction = new Vector2(-1, 0);
         if (_gridManager != null)
         {
             _currentTile = _gridManager.GetPlayerTile();
             _points.Add(_gridManager.GetPlayerTile());
         }
+    }
+
+    public void SetDirection(Vector2 dir)
+    {
+        _direction = dir;
     }
 
     public void SetAdjustments(List<Adjustment> adjustments)
