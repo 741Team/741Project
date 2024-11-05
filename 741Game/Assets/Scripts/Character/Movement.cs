@@ -229,4 +229,18 @@ public class Movement : MonoBehaviour
         hittable = true;
     }
 
+    public void FreezePlayer()
+    {
+        AllowedToMove = false;
+        AllowedToJump = false;
+        AllowedToAttack = false;
+    }
+
+    public void UnfreezePlayer()
+    {
+        AllowedToMove = true;
+        AllowedToJump = true;
+        AllowedToAttack = true;
+    }
+
 }
