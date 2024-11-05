@@ -6,7 +6,7 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-    public Movement player;
+    public PlayerController player;
 
     public TMP_Text nameText;
     public TMP_Text dialogueText;
@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        player.FreezePlayer();
+        player.Freeze();
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
 
@@ -51,6 +51,6 @@ public class DialogueManager : MonoBehaviour
     private void EndDialogue()
     {
         animator.SetBool("IsOpen", false);
-        player.UnfreezePlayer();
+        player.Unfreeze();
     }
 }
