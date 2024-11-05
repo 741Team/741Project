@@ -289,11 +289,15 @@ public class PlayerController : MonoBehaviour, IFreezable
     public void Freeze()
     {
         AllowedToMove = false;
+        AllowedToJump = false;
+        AllowedToAttack = false;
     }
 
     public void Unfreeze()
     {
         AllowedToMove = true;
+        AllowedToJump = true;
+        AllowedToAttack = true;
     }
 
 }
