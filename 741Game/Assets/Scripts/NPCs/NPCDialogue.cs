@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NPCDialogue : MonoBehaviour
 {
-    private Movement player;
+    private PlayerController player;
     [SerializeField] private DialogueTrigger dialogue;
     [SerializeField] private GameObject prompt;
     private Canvas canvas;
