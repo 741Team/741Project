@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:741Game/Assets/Scenes/Village.unity.meta
+guid: e3c05683f2cae2c478f26e369c1dce62
+========
 guid: 393ef1bb082acca41b05d30f09b78861
 folderAsset: yes
+>>>>>>>> main:741Game/Assets/Prefabs/NPCs.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
