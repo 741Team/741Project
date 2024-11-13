@@ -3,7 +3,57 @@ guid: 5bdd538e89fed634ba07f88e46538b24
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: 83578d4c87dbb6641bd4d4e290530bd5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 6d0016afad232114292a626814691ff0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roof1
+    second: {fileID: 2100000, guid: d8ebd4789c5933343a542bdb4ba2af12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_2
+    second: {fileID: 2100000, guid: f83894f02afd030408323b5fcb2f6dbe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_One
+    second: {fileID: 2100000, guid: a72961961ab60654dad13423c1b24451, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_Wall
+    second: {fileID: 2100000, guid: cf5158701622f984991c385503581365, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall
+    second: {fileID: 2100000, guid: 02d470e67f4a25d4687cb1da2051a45e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood
+    second: {fileID: 2100000, guid: 2887ed7d4f18120468c0121112f64b3d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood_Plank
+    second: {fileID: 2100000, guid: a74a260e84d29764187682ea782fce5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface1
+    second: {fileID: 2100000, guid: d14d3e9f84a0969419e62813906322a8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
