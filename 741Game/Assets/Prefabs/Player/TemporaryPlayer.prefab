@@ -602,29 +602,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f05d6dfba7ac344a1a2b4c8dc623d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 7293593599404402078}
   speed: 5
   jumpForce: 7
   maxHealth: 100
-  healthBar: {fileID: 0}
   immunityTime: 1
   dashTime: 0.5
   dashPower: 7
   dashCooldown: 1
+  maxDamage: 50
+  damage: 0
+  maxFocus: 0
+  focusDecreaseRate: 0
+  focusRefreshRate: 0
   focusBar: {fileID: 0}
-  look: {x: 0, y: 0, z: 0}
-  AllowedToMove: 1
+  rb: {fileID: 7293593599404402078}
+  healthBar: {fileID: 0}
   trail: {fileID: 2350464988573168775}
   dashBar: {fileID: 1257892799200877625}
   DashBar: {fileID: 7690135057783676597}
-  feet: {fileID: 2281215724581489979}
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  maxDamage: 50
-  damage: 0
+  feet: {fileID: 2281215724581489979}
   sword: {fileID: 7799087755286690447}
-  swordTrail: {fileID: 0}
+  look: {x: 0, y: 0, z: 0}
 --- !u!96 &2350464988573168775
 TrailRenderer:
   serializedVersion: 3
@@ -778,7 +779,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _casting: {fileID: 5874014147689466044}
   _gridManager: {fileID: 0}
-  _focusTime: 5
 --- !u!114 &5874014147689466044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,6 +796,7 @@ MonoBehaviour:
   - {fileID: 6723351599914566032, guid: 97c259223fe03f94f932b0c4bb74227f, type: 3}
   - {fileID: 8793914246671853807, guid: b3b35d455fbf98e4cad6f49e32bb59e6, type: 3}
   - {fileID: 3172334281838138954, guid: a8f1182b6c888554a8a11b2155dbe853, type: 3}
+  - {fileID: 1349994199894202756, guid: 8f6e55197a77aa9458ed5488de82db57, type: 3}
   _usedAdjustments: []
   _bolt: {fileID: 6350893835227158558, guid: 30824a7f740a45b4c95352d52ab1bf94, type: 3}
 --- !u!114 &1876130685891584998
@@ -2804,8 +2805,6 @@ MonoBehaviour:
   value: 100
   refillable: 1
   refillRate: 1.5
-  FocusBar: 0
-  focusRefillRate: 0
 --- !u!114 &6714402719415618294
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private Tile _playerTile;
     AnimateGridLines _animateGridLines;
+    [SerializeField]
+    Terrain _terrain;
 
 
 
@@ -36,6 +38,10 @@ public class GridManager : MonoBehaviour
 
     public void EnableGrid()
     {
+        if(_terrain == null)
+        {
+            _terrain = FindAnyObjectByType<Terrain>();
+        }
         if (_gridStorage != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -75,6 +81,11 @@ public class GridManager : MonoBehaviour
 
     public Tile GetPlayerTile() { 
         return _playerTile;
+    }
+
+    public Terrain GetTerrain()
+    {
+        return _terrain;
     }
 
 }

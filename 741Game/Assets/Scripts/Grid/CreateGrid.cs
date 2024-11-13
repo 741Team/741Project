@@ -50,12 +50,14 @@ public class CreateGrid : MonoBehaviour
         gridObject.name = "GridStorage";
         float centreX = Mathf.Round(_gridWidth / 2);
         float centreZ = Mathf.Round(_gridHeight / 2);
+        float centreY = 0.2f;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             gridObject.transform.position = player.transform.position;
             centreX = player.transform.position.x;
             centreZ = player.transform.position.z;
+            centreY = player.transform.position.y;
 
         }
         float gridStartX = centreX - ((_gridWidth/2) * _gridSpacing);
@@ -66,7 +68,7 @@ public class CreateGrid : MonoBehaviour
             {
                 float x = gridStartX + (i * _gridSpacing);
                 float z = gridStartZ - (j * _gridSpacing);
-                GameObject newTile = Instantiate(_gridTile, new Vector3(x, 0.2f, z), _gridTile.transform.rotation);
+                GameObject newTile = Instantiate(_gridTile, new Vector3(x, centreY, z), _gridTile.transform.rotation);
                 newTile.transform.localScale = newTile.transform.localScale * _tileSize;
                 newTile.transform.parent = gridObject.transform;
                 newTile.GetComponent<Tile>().SetXAndY(i,j);

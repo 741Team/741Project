@@ -18,8 +18,6 @@ public class AnimateGridLines : MonoBehaviour
     [SerializeField]
     Color _color;
     [SerializeField]
-    Terrain _terrain;
-    [SerializeField]
     float _lineAccuracy;
 
 
@@ -91,6 +89,7 @@ public class AnimateGridLines : MonoBehaviour
 
     public void AdjustLinePoints()
     {
+        Terrain _terrain = gridManager.GetTerrain();
         GameObject[][] grid = gridManager.GetGrid();
         for (int i = 0; i < grid.Length; i++)
         {
