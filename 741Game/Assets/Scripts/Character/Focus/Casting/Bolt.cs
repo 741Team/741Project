@@ -19,11 +19,15 @@ public class Bolt : MonoBehaviour
     bool _ended;
     bool _started;
     bool pointChecked;
-
-    List<GameObject> _splitBolts;
+    bool _inverse;      
+    Terrain _terrain;
+    List<Adjustment> remainingAdjustments;
+    List<Tile> _splitPoints = new List<Tile>();
+    List<GameObject> _splitBolts = new List<GameObject>();
 
     public void OnCreate()
     {
+        _inverse = false;
         pointChecked = false;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         _gridManager = FindAnyObjectByType<GridManager>();
@@ -31,13 +35,17 @@ public class Bolt : MonoBehaviour
         _ended = false;
         _started = false;
 
-        //CHANGE THIS TO MATCH PLAYER DIRECTION
-        _direction = new Vector2(-1, 0);
         if (_gridManager != null)
         {
             _currentTile = _gridManager.GetPlayerTile();
             _points.Add(_gridManager.GetPlayerTile());
+            _terrain = _gridManager.GetTerrain();
         }
+    }
+
+    public void SetDirection(Vector2 dir)
+    {
+        _direction = dir;
     }
 
     public void SetAdjustments(List<Adjustment> adjustments)
@@ -45,19 +53,38 @@ public class Bolt : MonoBehaviour
         _adjustments = adjustments;
     }
 
-    public void  ApplyAdjustments()
+    public void SetCurrentTile(Tile tile)
     {
-        List<Adjustment> remainingAdjustments = new List<Adjustment>();
+        _currentTile = tile;
+        _points.Clear();
+        _points.Add(tile);
+    }
+
+    public void SetInverse(bool inverse)
+    {
+        _inverse = inverse;
+    }
+
+
+    public void ApplyAdjustments()
+    {
+        remainingAdjustments = new List<Adjustment>();
         remainingAdjustments.AddRange(_adjustments);
         foreach (Adjustment a in _adjustments)
         {
-            a.AdjustSpell(ref _currentTile, ref _direction, ref _points, _gridManager);
+
+            a.AdjustSpell(ref _currentTile, ref _direction, ref _points, _gridManager, this);
+
+
             remainingAdjustments.Remove(a);
         }
     }
 
     public void FireBolt()
     {
+        Vector3 pos = new Vector3(_points[0].transform.position.x, _terrain.SampleHeight(_points[0].transform.position) + 0.5f, _points[0].transform.position.z);
+        transform.position = pos;
+        GetComponentInChildren<TrailRenderer>().enabled = true;
         _started = true;
     }
 
@@ -65,7 +92,7 @@ public class Bolt : MonoBehaviour
     {
         if (_started)
         {
-            if(!pointChecked)
+            if (!pointChecked)
             {
                 CheckPointForEnemy(_currentPoint);
                 pointChecked = true;
@@ -73,10 +100,16 @@ public class Bolt : MonoBehaviour
             }
             if (_currentPoint + 1 < _points.Count)
             {
-                Vector3 pointPosition = new Vector3(_points[_currentPoint + 1].transform.position.x, transform.position.y, _points[_currentPoint + 1].transform.position.z);
-                transform.position =  Vector3.MoveTowards(transform.position, pointPosition, _speed * Time.deltaTime);
-                if(Vector3.Distance(transform.position, pointPosition) < 0.1)
+                float pointHeight = _terrain.SampleHeight(_points[_currentPoint + 1].transform.position) + 0.5f;
+                Vector3 pointPosition = new Vector3(_points[_currentPoint + 1].transform.position.x, pointHeight, _points[_currentPoint + 1].transform.position.z);
+                transform.position = Vector3.MoveTowards(transform.position, pointPosition, _speed * Time.deltaTime);
+                if (Vector3.Distance(transform.position, pointPosition) < 0.1)
                 {
+                    if(_splitPoints.Contains(_points[_currentPoint + 1]))
+                    {
+                        int index = _splitPoints.IndexOf(_points[_currentPoint + 1]);
+                        _splitBolts[index].GetComponent<Bolt>().FireBolt();
+                    }
                     _currentPoint += 1;
                     pointChecked = false;
                 }
@@ -95,7 +128,18 @@ public class Bolt : MonoBehaviour
         return _ended;
     }
 
-    private void CheckPointForEnemy(int point) {
+    public List<Adjustment> GetRemainingAdjustments()
+    {
+        return remainingAdjustments;
+    }
+
+    public bool GetInverse()
+    {
+        return _inverse;
+    }
+
+    private void CheckPointForEnemy(int point)
+    {
         Tile tile = _points[point];
         GameObject occupant = tile.GetOccupant();
         if (occupant != null)
@@ -106,6 +150,12 @@ public class Bolt : MonoBehaviour
                 enemy.BoltHit(50);
             }
         }
+    }
+
+    public void AddSplit(Tile tile, GameObject bolt)
+    {
+        _splitPoints.Add(tile);
+        _splitBolts.Add(bolt);
     }
 
 }

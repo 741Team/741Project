@@ -17,6 +17,7 @@ public class Casting : MonoBehaviour
     Dictionary<KeyCode, Adjustment> _adjustmentInputs;
     CharacterAnimations _characterAnimations;
     ExitFocus _exitFocus;
+    Vector2 direction;
 
     bool _canInput = false;
     // Start is called before the first frame update
@@ -64,7 +65,8 @@ public class Casting : MonoBehaviour
 
     }
 
-    void CastSpell()
+
+        void CastSpell()
     {
         if (_bolt != null)
         {
@@ -73,6 +75,7 @@ public class Casting : MonoBehaviour
             if (boltScript != null)
             {
                 boltScript.OnCreate();
+                boltScript.SetDirection(direction);
                 boltScript.SetAdjustments(_usedAdjustments);
                 boltScript.ApplyAdjustments();
                 boltScript.FireBolt();
@@ -99,6 +102,11 @@ public class Casting : MonoBehaviour
         {
             _exitFocus.FocusOver();
         }
+    }
+
+    public void SetDirection(Vector2 dir)
+    {
+        direction = dir;
     }
 
     IEnumerator WaitForBolt(Bolt bolt)

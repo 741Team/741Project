@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Forward : Adjustment
 {
-    public override void AdjustSpell(ref Tile tile, ref Vector2 direction, ref List<Tile> points, GridManager gridManager)
+    public override void AdjustSpell(ref Tile tile, ref Vector2 direction, ref List<Tile> points, GridManager gridManager, Bolt bolt)
     {
         int x = tile._x + (int)direction.x;
         int y = tile._y + (int)direction.y;
