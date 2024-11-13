@@ -17,6 +17,10 @@ public class AnimateGridLines : MonoBehaviour
     Material _lineMaterial;
     [SerializeField]
     Color _color;
+    [SerializeField]
+    Terrain _terrain;
+    [SerializeField]
+    float _lineAccuracy;
 
 
     void Start()
@@ -40,6 +44,7 @@ public class AnimateGridLines : MonoBehaviour
             lineRenderer.material = _lineMaterial;
             lineRenderer.startColor = _color;
             lineRenderer.endColor = _color;
+            lineRenderer.positionCount = (int)_lineAccuracy;
             horizontalLines.Add(lineRenderer);
         }
         for (int j = 0; j < grid.Length; j++)
@@ -52,6 +57,7 @@ public class AnimateGridLines : MonoBehaviour
             lineRenderer.material = _lineMaterial;
             lineRenderer.startColor = _color;
             lineRenderer.endColor = _color;
+            lineRenderer.positionCount = (int)_lineAccuracy;
             verticalLines.Add(lineRenderer);
         }
         lineStorage.SetActive(false);
@@ -59,19 +65,28 @@ public class AnimateGridLines : MonoBehaviour
 
     IEnumerator AnimateLine(LineRenderer l)
     {
-        float startTime = Time.time;
-        Vector3 startPos = l.GetPosition(0);
-        Vector3 endPos = l.GetPosition(1);
+        int totalPoints = l.positionCount;
+        Vector3[] originalPositions = new Vector3[totalPoints];
 
-        Vector3 pos = startPos;
-        while (pos != endPos)
+        // Store the original positions
+        for (int i = 0; i < totalPoints; i++)
         {
-            float t = (Time.time - startTime)/ _animationLength;
-            pos = Vector3.Lerp(startPos, endPos, t);
-            l.SetPosition(1, pos);
-            yield return null;
+            originalPositions[i] = l.GetPosition(i);
         }
 
+        // Start by showing only the first point
+        l.positionCount = 1;
+        l.SetPosition(0, originalPositions[0]);
+
+        for (int i = 1; i < totalPoints; i++)
+        {
+            // Incrementally increase the number of visible points and set their positions
+            l.positionCount = i + 1;
+            l.SetPosition(i, originalPositions[i]);
+
+            // Wait a short duration before showing the next point
+            yield return null;
+        }
     }
 
     public void AdjustLinePoints()
@@ -79,16 +94,32 @@ public class AnimateGridLines : MonoBehaviour
         GameObject[][] grid = gridManager.GetGrid();
         for (int i = 0; i < grid.Length; i++)
         {
+            
             LineRenderer l = horizontalLines[i];
             GameObject startTile = gridManager.GetTile(i, 0);
             GameObject endTile = gridManager.GetTile(i, grid[i].Length - 1);
             float tileScale = startTile.transform.localScale.x;
+            float startY = _terrain.SampleHeight(startTile.transform.position);
+            float endY = _terrain.SampleHeight(endTile.transform.position);
             float startX = startTile.transform.position.x + (startTile.GetComponent<BoxCollider>().bounds.extents.x );
             float endX = endTile.transform.position.x + (endTile.GetComponent<BoxCollider>().bounds.extents.x );
-            Vector3 endPos = new Vector3(startX, startTile.transform.position.y, startTile.transform.position.z);
-            Vector3 startPos = new Vector3(endX, endTile.transform.position.y, endTile.transform.position.z);
+            Vector3 endPos = new Vector3(startX, startY, startTile.transform.position.z);
+            Vector3 startPos = new Vector3(endX, endY, endTile.transform.position.z);
             l.SetPosition(0, startPos);
-            l.SetPosition(1, endPos);
+            float startZ = startTile.transform.position.z;
+            float endZ = endTile.transform.position.z;
+            for (int p = 1; p< _lineAccuracy-1; p++)
+            {
+                float nextX = startX + (startX - endX) * (p / _lineAccuracy);
+                float zDiff = startZ - endZ;
+                float multiplier = p / _lineAccuracy;
+                float add = zDiff * multiplier;
+                float nextZ = endZ + add;
+                float nextY = _terrain.SampleHeight(new Vector3(nextX, 0, nextZ))+ 0.2f;
+                Vector3 pos = new Vector3(nextX, nextY, nextZ);
+                l.SetPosition(p, pos);
+            }
+            l.SetPosition(l.positionCount-1, endPos);
         }
         for (int j = 0; j < grid.Length; j++)
         {
@@ -96,12 +127,24 @@ public class AnimateGridLines : MonoBehaviour
             GameObject startTile = gridManager.GetTile(0, j);
             GameObject endTile = gridManager.GetTile(grid[0].Length - 1, j);
             float tileScale = startTile.transform.localScale.z;
+            float startY = _terrain.SampleHeight(startTile.transform.position);
+            float endY = _terrain.SampleHeight(endTile.transform.position);
             float startZ = startTile.transform.position.z + (startTile.GetComponent<BoxCollider>().bounds.extents.z );
             float endZ = endTile.transform.position.z + (endTile.GetComponent<BoxCollider>().bounds.extents.z );
-            Vector3 endPos = new Vector3(startTile.transform.position.x, startTile.transform.position.y, startZ);
-            Vector3 startPos = new Vector3(endTile.transform.position.x, endTile.transform.position.y, endZ);
+            Vector3 endPos = new Vector3(startTile.transform.position.x, startY, startZ);
+            Vector3 startPos = new Vector3(endTile.transform.position.x, endY, endZ);
             lineRenderer.SetPosition(0, startPos);
-            lineRenderer.SetPosition(1, endPos);
+            float startX = startTile.transform.position.x;
+            float endX = endTile.transform.position.x;
+            for (int p = 1; p < _lineAccuracy-1; p++)
+            {
+                float nextX = endX + (startX - endX) * (p / _lineAccuracy);
+                float nextZ = startZ + (startZ - endZ) * (p / _lineAccuracy);
+                float nextY = _terrain.SampleHeight(new Vector3(nextX, 0, nextZ)) + 0.2f;
+                Vector3 pos = new Vector3(nextX, nextY, nextZ);
+                lineRenderer.SetPosition(p, pos);
+            }
+            lineRenderer.SetPosition(lineRenderer.positionCount-1, endPos);
         }
     }
 

@@ -53,6 +53,7 @@ public class CreateGrid : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
+            gridObject.transform.position = player.transform.position;
             centreX = player.transform.position.x;
             centreZ = player.transform.position.z;
 

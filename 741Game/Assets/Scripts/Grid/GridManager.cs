@@ -38,11 +38,10 @@ public class GridManager : MonoBehaviour
     {
         if (_gridStorage != null)
         {
-            Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
             _gridStorage.SetActive(true);
-            if (playerPos != null) { 
-                Vector3 gridPos = new Vector3(playerPos.x, 0, playerPos.z);
-                _gridStorage.transform.position = gridPos;
+            if (player != null) {
+                _gridStorage.transform.position = player.transform.position;
             }
             _animateGridLines.EnableLines();
         }
