@@ -501,7 +501,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: c0dcbf62b8efd534ba15dda48ff333ce, type: 3}
+  - {fileID: 2100000, guid: 18524f73499b00d4aabfe5e432a9eade, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -813,6 +813,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c0dcbf62b8efd534ba15dda48ff333ce, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ec4b9d3748ecdad46bfbc4e38907df25, type: 2}
     - target: {fileID: 919132149155446097, guid: c0dcbf62b8efd534ba15dda48ff333ce, type: 3}
       propertyPath: m_Name
       value: Pebble 2
