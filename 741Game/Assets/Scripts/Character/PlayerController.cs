@@ -244,7 +244,7 @@ public class PlayerController : MonoBehaviour, IFreezable
             _characterAnimations.Attack();
         }
         damage = maxDamage;
-        var swordRenderer = sword.GetComponent<Renderer>();
+        var swordRenderer = sword.GetComponentInChildren<Renderer>();
         swordTrail.StartTrail();
         Color red = new Color(1f, 0f, 0f, 1f);
         swordRenderer.material.SetColor("_Color", red);

@@ -90,6 +90,7 @@ public class AnimateGridLines : MonoBehaviour
     public void AdjustLinePoints()
     {
         Terrain _terrain = gridManager.GetTerrain();
+        _terrain.
         GameObject[][] grid = gridManager.GetGrid();
         for (int i = 0; i < grid.Length; i++)
         {
