@@ -286,6 +286,11 @@ public class PlayerController : MonoBehaviour, IFreezable
         focusBar.SetValue(focus);
     }
 
+    public bool IsAllowedToMove()
+    {
+        return AllowedToMove;
+    }   
+
     public void Freeze()
     {
         AllowedToMove = false;
