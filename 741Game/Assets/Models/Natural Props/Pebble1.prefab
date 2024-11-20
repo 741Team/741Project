@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+  - {fileID: 2100000, guid: ec4b9d3748ecdad46bfbc4e38907df25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,7 +170,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+  - {fileID: 2100000, guid: ec4b9d3748ecdad46bfbc4e38907df25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,13 +206,7 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
-    fadeTransitionWidth: 0
-    renderers: []
-  - screenRelativeHeight: 0.3
-    fadeTransitionWidth: 0
-    renderers: []
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.0015239808
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
@@ -278,7 +272,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+  - {fileID: 2100000, guid: ec4b9d3748ecdad46bfbc4e38907df25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -386,7 +380,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+  - {fileID: 2100000, guid: 18524f73499b00d4aabfe5e432a9eade, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -496,7 +490,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+  - {fileID: 2100000, guid: ec4b9d3748ecdad46bfbc4e38907df25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -608,7 +602,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+  - {fileID: 2100000, guid: 18524f73499b00d4aabfe5e432a9eade, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -718,7 +712,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3986188387995331715, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+  - {fileID: 2100000, guid: ec4b9d3748ecdad46bfbc4e38907df25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -813,6 +807,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f94884fbf0560c4480f3539c8b9a186, type: 2}
     - target: {fileID: 919132149155446097, guid: 9447fe95fbbce8042a1e8f990f534172, type: 3}
       propertyPath: m_Name
       value: Pebble1
@@ -862,7 +860,7 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7919492394373891448}
     - renderer: {fileID: 1530357487332578770}
-  - screenRelativeHeight: 0.02624869
+  - screenRelativeHeight: 0.012741672
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6312184117710067770}
