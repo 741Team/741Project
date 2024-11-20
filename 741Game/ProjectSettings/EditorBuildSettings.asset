@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Village_Quest_Test.unity
+    guid: 742d693eb38639043bc36c0738f77832
+  - enabled: 1
+    path: Assets/Scenes/Gloomy_Wood_Quest_Test.unity
+    guid: bc20afcceb8d59843b6432c0bde581bc
   m_configObjects: {}

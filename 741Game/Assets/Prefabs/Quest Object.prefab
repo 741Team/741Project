@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548377794034164124}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9238796, z: -0, w: -0.38268325}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -1.519989, z: 0}
   m_LocalScale: {x: 2, y: 4, z: 2}
   m_ConstrainProportionsScale: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2582264576144704905}
   - {fileID: 6205998901163575817}
   m_Father: {fileID: 194867039436525497}
-  m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &9216427973673404552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,5 +457,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e719aa0c0c2a244b45091305466b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quest: {fileID: 0}
   prompt: {fileID: 548377794034164124}
