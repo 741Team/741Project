@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour, IFreezable
         if (AllowedToMove)
         {
             movement.x = Input.GetAxisRaw("Horizontal") * -1f;
-            movement.z = Input.GetAxisRaw("Vertical") * -2f;
+            movement.z = Input.GetAxisRaw("Vertical") * -1f;
 
             if (Input.GetButtonDown("Jump") & AllowedToJump)
             {
@@ -129,39 +129,40 @@ public class PlayerController : MonoBehaviour, IFreezable
                 StartCoroutine(Attack());
             }
 
-            ///Set rotation vectors for isometric movement
-            if (movement.x == 1 & movement.z == 2)
-            {
-                look = new Vector3(0, 90, 0);
-            }
-            else if (movement.x == 1 & movement.z == 0)
-            {
-                look = new Vector3(0, 135, 0);
-            }
-            else if (movement.x == 1 & movement.z == -2)
-            {
-                look = new Vector3(0, 180, 0);
-            }
-            else if (movement.x == 0 & movement.z == -2)
-            {
-                look = new Vector3(0, 225, 0);
-            }
-            else if (movement.x == -1 & movement.z == -2)
-            {
-                look = new Vector3(0, 270, 0);
-            }
-            else if (movement.x == -1 & movement.z == 0)
-            {
-                look = new Vector3(0, 315, 0);
-            }
-            else if (movement.x == -1 & movement.z == 2)
-            {
-                look = new Vector3(0, 360, 0);
-            }
-            else if (movement.x == 0 & movement.z == 2)
+            //Set rotation vectors for isometric movement
+            if (movement.x == 1 & movement.z == 1)
             {
                 look = new Vector3(0, 45, 0);
             }
+            else if (movement.x == 1 & movement.z == 0)
+            {
+                look = new Vector3(0, 90, 0);
+            }
+            else if (movement.x == 1 & movement.z == -1)
+            {
+                look = new Vector3(0, 135, 0);
+            }
+            else if (movement.x == 0 & movement.z == -1)
+            {
+                look = new Vector3(0, 180, 0);
+            }
+            else if (movement.x == -1 & movement.z == -1)
+            {
+                look = new Vector3(0, 225, 0);
+            }
+            else if (movement.x == -1 & movement.z == 0)
+            {
+                look = new Vector3(0, 270, 0);
+            }
+            else if (movement.x == -1 & movement.z == 1)
+            {
+                look = new Vector3(0, 315, 0);
+            }
+            else if (movement.x == 0 & movement.z == 1)
+            {
+                look = new Vector3(0, 360, 0);
+            }
+            
 
             if (_characterAnimations != null)
             {
@@ -169,21 +170,27 @@ public class PlayerController : MonoBehaviour, IFreezable
             }
 
             ChangeFocus(focusRefreshRate * Time.deltaTime);
+
+            rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+            transform.rotation = Quaternion.Euler(look);
         }      
 
     }
 
+    /*
     void FixedUpdate()
     {
         if (AllowedToMove == true)
         {
-            ///Setting up isometric movement
+            //Setting up isometric movement
             transform.rotation = Quaternion.Euler(look);
             IsoMovement = IsomentricConverter(movement);
             rb.MovePosition(transform.position + IsoMovement * speed * Time.fixedDeltaTime);
         }
     }
+    */
     
+    /*
     private Vector3 IsomentricConverter(Vector3 vector)
     {
         //Setting up isometric movement pt 2, the sequel
@@ -192,6 +199,7 @@ public class PlayerController : MonoBehaviour, IFreezable
         Vector3 result = isoMatrix.MultiplyPoint3x4(vector);
         return result;
     }
+    */
 
     private void Jump()
     {
@@ -205,8 +213,7 @@ public class PlayerController : MonoBehaviour, IFreezable
         canDash = false;
         DashBar.SetActive(true);
         dashBar.SetValue(0);
-        IsoMovement = IsomentricConverter(movement);
-        rb.velocity = new Vector3(IsoMovement.x * dashPower,0,IsoMovement.z * dashPower);
+        rb.velocity = new Vector3(movement.x * dashPower,0,movement.z * dashPower);
         trail.emitting = true;
         yield return new WaitForSeconds(dashTime);
         trail.emitting = false;
