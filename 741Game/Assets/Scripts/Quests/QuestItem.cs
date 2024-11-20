@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuestItem : MonoBehaviour
 {
-    [SerializeField] private QuestTrigger quest;
+    private QuestManager quest;
 
     private PlayerController player;
     [SerializeField] private GameObject prompt;
@@ -14,6 +14,8 @@ public class QuestItem : MonoBehaviour
 
     private void Start()
     {
+        quest = FindObjectOfType<QuestManager>();
+
         player = ItemManager.singleton.Player;
         canvas = ItemManager.singleton.enemyCanvas;
         playerInRange = false;
@@ -23,7 +25,7 @@ public class QuestItem : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "Player" & quest.quest.questStarted == true)
+        if (collider.tag == "Player" & quest.Necklace.quest.questStarted == true)
         {
             playerInRange = true;
             prompt.SetActive(true);
@@ -32,7 +34,7 @@ public class QuestItem : MonoBehaviour
 
     private void OnTriggerExit(Collider collider)
     {
-        if (collider.tag == "Player" & quest.quest.questStarted == true)
+        if (collider.tag == "Player" & quest.Necklace.quest.questStarted == true)
         {
             playerInRange = false;
             prompt.SetActive(false);
@@ -41,7 +43,7 @@ public class QuestItem : MonoBehaviour
 
     private void ObjectObtained()
     {
-        quest.Completed();
+        quest.Necklace.Completed();
     }
 
     private void Update()

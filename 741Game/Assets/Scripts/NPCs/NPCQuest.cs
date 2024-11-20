@@ -13,7 +13,8 @@ public class NPCQuest : MonoBehaviour
     private Canvas canvas;
     private DialogueManager dialogue;
 
-    [SerializeField] QuestTrigger quest;
+    private QuestManager questManager;
+    private QuestTrigger quest;
 
     public bool talking;
 
@@ -21,6 +22,9 @@ public class NPCQuest : MonoBehaviour
 
     private void Start()
     {
+        questManager = FindObjectOfType<QuestManager>();
+        quest = questManager.Necklace;
+
         dialogue = FindObjectOfType<DialogueManager>();
         player = ItemManager.singleton.Player;
         canvas = ItemManager.singleton.enemyCanvas;
