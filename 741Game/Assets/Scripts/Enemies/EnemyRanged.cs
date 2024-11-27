@@ -8,10 +8,12 @@ public class EnemyRanged : EnemyBase
 
     [SerializeField] private Arrow arrow;
 
+    [SerializeField] private Aimer aimer;
+
     public override void Start()
     {
         base.Start();
-        ///Start aiming loop
+        //Start aiming loop
         StartCoroutine(Aiming());
     }
 
@@ -19,31 +21,31 @@ public class EnemyRanged : EnemyBase
     {
         base.Update();
 
-        ///If in range, look at player
+        //If in range, look at player
         if (playerInRange && allowedToMove)
         {
+            base.SetPlayerPosition();
             transform.forward = playerPosition - transform.position;
+        }
+        else
+        {
+            transform.forward = transform.forward;
         }
     }
 
     private IEnumerator Aiming()
     {
-        ///If in range, wait, and then shoot
+        //If in range, wait, and then shoot
         if (playerInRange && allowedToMove)
         {
             yield return new WaitForSeconds(reloadTime);
-            Shoot();
+            aimer.Shoot();
         }
-        ///or if not in range, repeat unitl in range
+        //or if not in range, repeat unitl in range
         yield return new WaitForSeconds(0.01f);
-        ///and keep looping
+        //and keep looping
         StartCoroutine(Aiming());
     }
 
-    private void Shoot()
-    {
-        ///Create arrow prefab, and set direction
-        Arrow arrows = Instantiate(arrow, transform.position, transform.rotation);
-        arrows.Project(transform.forward);
-    }
+    
 }
