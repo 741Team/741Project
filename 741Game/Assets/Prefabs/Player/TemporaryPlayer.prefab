@@ -625,6 +625,8 @@ MonoBehaviour:
     m_Bits: 64
   feet: {fileID: 2281215724581489979}
   sword: {fileID: 7799087755286690447}
+  Village: 0
+  Woods: 0
   look: {x: 0, y: 0, z: 0}
 --- !u!96 &2350464988573168775
 TrailRenderer:
@@ -2805,6 +2807,7 @@ MonoBehaviour:
   value: 100
   refillable: 1
   refillRate: 1.5
+  Woods: 1
 --- !u!114 &6714402719415618294
 MonoBehaviour:
   m_ObjectHideFlags: 0

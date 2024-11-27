@@ -12,13 +12,14 @@ public class Bar : MonoBehaviour
     [SerializeField] private bool refillable;
     [SerializeField] private float refillRate;
 
+    [SerializeField] private bool Woods;
+
 
     public void Setup(float maxValue)
     {
         MaxValue = maxValue;
         slider.maxValue = maxValue;
         slider.value = maxValue;
-
     }
     
     public void Increase(float plus)

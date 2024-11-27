@@ -35,7 +35,7 @@ public class EnemyMeleeMovement : EnemyBase
         ///If in range, set target position to player position, and then wait
         if (playerInRange)
         {
-
+            base.SetPlayerPosition();
             yield return new WaitForSeconds(movementFrequency);
         }
         ///or if not in range, repeat unitl in range
