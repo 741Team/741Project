@@ -67,7 +67,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Exposure: 1.55
+    - _Exposure: 1.79
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -79,8 +79,8 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SunDisk: 2
-    - _SunSize: 0.036
-    - _SunSizeConvergence: 5
+    - _SunSize: 0.066
+    - _SunSizeConvergence: 4.57
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
