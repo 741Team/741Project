@@ -26,7 +26,9 @@ public class EnemyMeleeMovement : EnemyBase
         ///move to player, if in range
         if (playerInRange && allowedToMove)
         {
+            transform.LookAt(playerPosition);
             transform.position = Vector3.SmoothDamp(transform.position, playerPosition, ref velocity, speed);
+            animator.SetFloat("Movement", 1);
         }
     }
 

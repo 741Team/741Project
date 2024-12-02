@@ -13,6 +13,7 @@ public class EnemyBase : MonoBehaviour, IFreezable
     private bool hittable;
     private Bar focusBar;
     protected bool allowedToMove;
+    [SerializeField] protected Animator animator;
 
     protected PlayerController player;
     private bool touchingPlayer;
@@ -42,6 +43,7 @@ public class EnemyBase : MonoBehaviour, IFreezable
             pd = GetComponentInChildren<PlayerDetector>();
         }
 
+        animator = GetComponentInChildren<Animator>();
         allowedToMove = true;
     }
 
