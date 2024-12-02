@@ -101,14 +101,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3804211565856024183}
-  m_LocalRotation: {x: -0, y: 0.9238796, z: -0, w: -0.38268325}
+  m_LocalRotation: {x: 0, y: 0.6427877, z: -0, w: -0.7660444}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1548942413238002098}
   m_Father: {fileID: 7688364322609408157}
-  m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 280, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.75}
@@ -181,6 +181,7 @@ MonoBehaviour:
   value: 0
   refillable: 0
   refillRate: 0
+  Woods: 0
 --- !u!114 &2671149754511627354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,13 +272,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7688364322609408157}
+  - component: {fileID: 8870177201987850087}
   - component: {fileID: 4465785174091321238}
   - component: {fileID: 3628129762975199184}
   - component: {fileID: 6581633317343805493}
   - component: {fileID: 8024506686681081404}
   - component: {fileID: 2323770742951976310}
   m_Layer: 0
-  m_Name: Enemy Melee
+  m_Name: Enemy Meele
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,15 +294,22 @@ Transform:
   m_GameObject: {fileID: 7052433354582369260}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.49, y: 0.672, z: 3.72}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -3.49, y: 0.5, z: 3.72}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3174437902342551419}
   - {fileID: 6258949866611438971}
-  - {fileID: 5036262018251590877}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8870177201987850087
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052433354582369260}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &4465785174091321238
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -380,7 +389,6 @@ MonoBehaviour:
   healthBar: {fileID: 6967336724626653844}
   HealthBar: {fileID: 3804211565856024183}
   immunityTime: 1
-  animator: {fileID: 0}
   pd: {fileID: 1439451215664726655}
   focusOnHit: 10
   speed: 0.5
@@ -405,9 +413,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.8
-  m_Height: 2.08
+  m_Height: 1.06
   m_Direction: 1
-  m_Center: {x: 0, y: 0.4, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2323770742951976310
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -430,99 +438,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!1001 &4787006317951773494
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7688364322609408157}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.493
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      propertyPath: m_Name
-      value: Paladin J Nordstrom
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 791252356487681212}
-  m_SourcePrefab: {fileID: 100100000, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
---- !u!4 &5036262018251590877 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-  m_PrefabInstance: {fileID: 4787006317951773494}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5669949689938433639 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a32e174b71fed84dbfcd12819bf70e5, type: 3}
-  m_PrefabInstance: {fileID: 4787006317951773494}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &791252356487681212
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5669949689938433639}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4dc9f586ba9f4cd4795942402be2b660, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

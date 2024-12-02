@@ -49,7 +49,9 @@ public class PlayerController : MonoBehaviour, IFreezable
     private CharacterAnimations _characterAnimations;
     private SwordTrail swordTrail;
 
-
+    [Header("Level")]
+    [SerializeField] private bool Village;
+    [SerializeField] private bool Woods;
 
     [Header("Debug")]
     [SerializeField] Vector3 look;
@@ -67,6 +69,10 @@ public class PlayerController : MonoBehaviour, IFreezable
         focusBar.SetValue(0);
 
         ///Setup dash bar
+        if (Woods == true)
+        {
+            dashBar.transform.Rotate(0f,270f,0f);
+        }
         dashBar.transform.SetParent(canvas.transform);
         canDash = true;
         dashBar.Setup(100);
@@ -110,8 +116,17 @@ public class PlayerController : MonoBehaviour, IFreezable
     {
         if (AllowedToMove)
         {
-            movement.x = Input.GetAxisRaw("Horizontal") * -1f;
-            movement.z = Input.GetAxisRaw("Vertical") * -1f;
+            if (Village == true)
+            {
+                movement.x = Input.GetAxisRaw("Horizontal") * -1f;
+                movement.z = Input.GetAxisRaw("Vertical") * -1f;
+            }
+            
+            if (Woods == true)
+            {
+                movement.x = Input.GetAxisRaw("Vertical") * -1f;
+                movement.z = Input.GetAxisRaw("Horizontal") * 1f;
+            }
 
             if (Input.GetButtonDown("Jump") & AllowedToJump)
             {

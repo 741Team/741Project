@@ -51,7 +51,6 @@ public class EnemyBase : MonoBehaviour, IFreezable
     {
 
         playerInRange = pd.playerInRange;
-        playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
 
         if (health <= 0)
         {
@@ -113,5 +112,10 @@ public class EnemyBase : MonoBehaviour, IFreezable
     public void Unfreeze()
     {
         allowedToMove = true;
+    }
+
+    public void SetPlayerPosition()
+    {
+        playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
     }
 }
