@@ -82,6 +82,8 @@ public class Casting : MonoBehaviour
                 _characterAnimations.Cast();
                 _usedAdjustments.Clear();
                 EnableInputs(false);
+                PlayerController player = GetComponent<PlayerController>();
+                player.PlayCastSound();
                 StartCoroutine(WaitForBolt(boltScript));
             }
         }

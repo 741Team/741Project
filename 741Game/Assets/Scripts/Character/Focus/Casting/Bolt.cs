@@ -118,6 +118,7 @@ public class Bolt : MonoBehaviour
             {
                 _ended = true;
                 _started = false;
+                Invoke("DestroyBolt", 0.1f);
             }
         }
 
@@ -147,7 +148,10 @@ public class Bolt : MonoBehaviour
             if (occupant.tag == "Enemy")
             {
                 EnemyBase enemy = occupant.GetComponent<EnemyBase>();
-                enemy.BoltHit(50);
+                if(enemy != null)
+                {
+                    enemy.BoltHit(50);
+                }
             }
         }
     }
@@ -158,4 +162,8 @@ public class Bolt : MonoBehaviour
         _splitBolts.Add(bolt);
     }
 
+    public void DestroyBolt()
+    {
+        Destroy(gameObject);
+    }
 }

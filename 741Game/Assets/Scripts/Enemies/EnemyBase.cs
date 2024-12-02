@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour, IFreezable
 {
+    [Header("Enemy Base")]
     [SerializeField] private float maxHealth;
     private float health;
     [SerializeField] private Bar healthBar;
     [SerializeField] private GameObject HealthBar;
     private Canvas canvas;
     [SerializeField] private float immunityTime;
-    private bool hittable;
+    protected bool hittable;
     private Bar focusBar;
     protected bool allowedToMove;
-
+    [SerializeField] protected Animator animator;
     protected PlayerController player;
     private bool touchingPlayer;
     protected bool playerInRange;
     [SerializeField] private PlayerDetector pd;
     protected Vector3 playerPosition;
     [SerializeField] private float focusOnHit;
+    [SerializeField] private ParticleSystem boltParticle;
 
     public virtual void Start()
     {
@@ -42,7 +44,9 @@ public class EnemyBase : MonoBehaviour, IFreezable
             pd = GetComponentInChildren<PlayerDetector>();
         }
 
+        animator = GetComponentInChildren<Animator>();
         allowedToMove = true;
+        hittable = true;
     }
 
     public virtual void Update()
@@ -54,52 +58,37 @@ public class EnemyBase : MonoBehaviour, IFreezable
         {
             Death();
         }
-
-        if (hittable & touchingPlayer)
-        {
-            hittable = false;
-            StartCoroutine(Hit(player.damage));
-        }
     }
 
-    private IEnumerator Hit(float damage)
+    private IEnumerator Hit(float damage, float knockback, Transform attacker)
     {
+        hittable = false;
         health = health - damage;
+        Vector3 direction = transform.position - attacker.position;
+        GetComponent<Rigidbody>().AddForce(direction.normalized * knockback, ForceMode.Impulse);
         player.ChangeFocus(focusOnHit);
         healthBar.Decrease(damage);
+        animator.SetTrigger("Hit");
         yield return new WaitForSeconds(immunityTime);
         hittable = true;
     }
 
     private void Death()
     {
+        animator.SetBool("Dead", true);
         Destroy(HealthBar);
-        Destroy(gameObject);
+        Destroy(this);
     }
 
-    
-    private void OnTriggerEnter(Collider collision)
+    public void OnPlayerHit(float damage, float knockback, Transform attacker)
     {
-        if (collision.tag == "Weapon")
-        {
-            touchingPlayer = true;
-            hittable = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider collision)
-    {
-        if (collision.tag == "Weapon")
-        {
-            touchingPlayer = false;
-            hittable = false;
-        }
+        StartCoroutine(Hit(damage, knockback, attacker));
     }
 
     public void BoltHit(float damage)
     {
-        health = health - damage;
-        healthBar.Decrease(damage);
+        StartCoroutine(Hit(damage, 0, transform));
+        boltParticle.Play();
     }
 
     public void Freeze()

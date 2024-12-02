@@ -43,7 +43,10 @@ public class ExitFocus : MonoBehaviour
         {
             enemy.Unfreeze();
         }
-        ItemManager.singleton.adjustmentBar.SetActive(false);
+        if (ItemManager.singleton.adjustmentBar != null)
+        {
+            ItemManager.singleton.adjustmentBar.SetActive(false);
+        }
         enabled = false;
     }
 }

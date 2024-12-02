@@ -17,6 +17,17 @@ public class CharacterAnimations : MonoBehaviour
 
     }
 
+    public void SetAttackTime(float time)
+    {
+        _defaultAttackTime = time;
+    }
+
+    public void SetRunDirection(Vector3 direction)
+    {
+        _anim.SetFloat("Right", direction.x);
+        _anim.SetFloat("Forward", direction.z);
+    }
+
     private void Update()
     {
         if (_attackTime > 0)
