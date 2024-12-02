@@ -17,6 +17,9 @@ public class ItemManager : MonoBehaviour
     protected void Awake()
     {
         singleton = this;
-        adjustmentBar.SetActive(false);
+        if (adjustmentBar != null)
+        {
+            adjustmentBar.SetActive(false);
+        }
     }
 }

@@ -34,7 +34,10 @@ public class EnterFocus : MonoBehaviour
                 {
                     enemy.Freeze();
                 }
-                ItemManager.singleton.adjustmentBar.SetActive(true);
+                if (ItemManager.singleton.adjustmentBar != null)
+                {
+                    ItemManager.singleton.adjustmentBar.SetActive(true);
+                }
                 enabled = false;
             }
         }
