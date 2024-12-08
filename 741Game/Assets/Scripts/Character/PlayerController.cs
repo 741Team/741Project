@@ -335,7 +335,7 @@ public class PlayerController : MonoBehaviour, IFreezable
             _characterAnimations.Attack();
         }
         audioSource.PlayOneShot(swordSound);
-        rb.AddForce(transform.forward * 5, ForceMode.Impulse);
+        rb.AddForce(transform.forward * 7, ForceMode.Impulse);
         var swordRenderer = sword.GetComponentInChildren<Renderer>();
         swordTrail.StartTrail();
         Color red = new Color(1f, 0f, 0f, 1f);
