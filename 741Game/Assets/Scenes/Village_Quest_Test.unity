@@ -10467,8 +10467,16 @@ PrefabInstance:
       value: TemporaryPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 4662068401180295459, guid: c84b44f0112b4dc40b69969cf3123500, type: 3}
+      propertyPath: Woods
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662068401180295459, guid: c84b44f0112b4dc40b69969cf3123500, type: 3}
       propertyPath: speed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4662068401180295459, guid: c84b44f0112b4dc40b69969cf3123500, type: 3}
+      propertyPath: Village
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8925631421602937611, guid: c84b44f0112b4dc40b69969cf3123500, type: 3}
       propertyPath: m_AnchorMax.x
