@@ -18,13 +18,9 @@ public class Split : Adjustment
         newBolt.GetComponent<Bolt>().OnCreate();
         newBolt.GetComponent<Bolt>().SetDirection(direction * -1);
         newBolt.GetComponent<Bolt>().SetCurrentTile(newTile);
-        List<Adjustment> adjustments = new List<Adjustment>();
-        adjustments.Add(forward.GetComponent<Adjustment>());
-        adjustments.AddRange(bolt.GetRemainingAdjustments());
-        adjustments.Remove(this);
-        newBolt.GetComponent<Bolt>().SetAdjustments(adjustments);
         newBolt.GetComponent<Bolt>().SetInverse(!bolt.GetInverse());
-        newBolt.GetComponent<Bolt>().ApplyAdjustments();
+        Bolt newBoltScript = newBolt.GetComponent<Bolt>();
+        forward.GetComponent<Adjustment>().AdjustSpell(ref newBoltScript._currentTile, ref newBoltScript._direction, ref newBoltScript._points, gridManager, newBolt.GetComponent<Bolt>());
 
         bolt.AddSplit(newTile, newBolt);
     }

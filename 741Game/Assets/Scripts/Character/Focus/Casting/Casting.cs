@@ -16,8 +16,11 @@ public class Casting : MonoBehaviour
     GameObject _bolt;
     Dictionary<KeyCode, Adjustment> _adjustmentInputs;
     CharacterAnimations _characterAnimations;
+    PlayerController _playerController;
     ExitFocus _exitFocus;
     Vector2 direction;
+    private Bolt _boltScript;
+    bool _startUp = true;
 
     bool _canInput = false;
     // Start is called before the first frame update
@@ -25,16 +28,23 @@ public class Casting : MonoBehaviour
     {
         _characterAnimations = GetComponent<CharacterAnimations>();
         _exitFocus = GetComponent<ExitFocus>();
+        _playerController = GetComponent<PlayerController>();
 
     }
 
     private void OnEnable()
     {
+        if (_startUp)
+        {
+            _startUp = false;
+            return;
+        }
         _adjustmentInputs = new Dictionary<KeyCode, Adjustment>();
         foreach (Adjustment a in _availableAdjustments)
         {
             _adjustmentInputs.Add(a._inputKey, a);
         }
+        Invoke("CreateBolt", 0.1f);
     }
 
     public void EnableInputs(bool enable)
@@ -53,7 +63,10 @@ public class Casting : MonoBehaviour
                 {
                     if (Input.GetKey(key))
                     {
-                        _usedAdjustments.Add(_adjustmentInputs[key]);
+                        _boltScript.ApplySingleAdjustment(_adjustmentInputs[key]);
+                        float cost = _adjustmentInputs[key].GetFocusCost();
+                        _playerController.ChangeFocus(-cost);
+                        //_usedAdjustments.Add(_adjustmentInputs[key]);
                     }
                 }
                 if (Input.GetKeyDown(_inputKey))
@@ -65,26 +78,37 @@ public class Casting : MonoBehaviour
 
     }
 
-
-        void CastSpell()
+    void CastSpell()
+    {
+        if (_boltScript != null)
+        {
+            _boltScript.FireBolt();
+            _characterAnimations.Cast();
+            EnableInputs(false);
+            PlayerController player = GetComponent<PlayerController>();
+            player.PlayCastSound();
+            StartCoroutine(WaitForBolt(_boltScript));
+        }
+    }
+    void CastSpellWithBulkAdjust()
     {
         if (_bolt != null)
         {
             GameObject newBolt = Instantiate(_bolt, transform.position, Quaternion.identity);
-            Bolt boltScript = newBolt.GetComponent<Bolt>();
-            if (boltScript != null)
+            _boltScript = newBolt.GetComponent<Bolt>();
+            if (_boltScript != null)
             {
-                boltScript.OnCreate();
-                boltScript.SetDirection(direction);
-                boltScript.SetAdjustments(_usedAdjustments);
-                boltScript.ApplyAdjustments();
-                boltScript.FireBolt();
+                _boltScript.OnCreate();
+                _boltScript.SetDirection(direction);
+                _boltScript.SetAdjustments(_usedAdjustments);
+                _boltScript.ApplyAdjustments();
+                _boltScript.FireBolt();
                 _characterAnimations.Cast();
                 _usedAdjustments.Clear();
                 EnableInputs(false);
                 PlayerController player = GetComponent<PlayerController>();
                 player.PlayCastSound();
-                StartCoroutine(WaitForBolt(boltScript));
+                StartCoroutine(WaitForBolt(_boltScript));
             }
         }
         else
@@ -94,11 +118,35 @@ public class Casting : MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        _usedAdjustments.Clear();
+        if(_boltScript != null)
+        {
+            Destroy(_boltScript.gameObject);
+        }
+    }
+
+    private void CreateBolt()
+    {
+        GameObject newBolt = Instantiate(_bolt, transform.position, Quaternion.identity);
+        _boltScript = newBolt.GetComponent<Bolt>();
+        if (_boltScript != null)
+        {
+            _boltScript.OnCreate();
+            _boltScript.SetDirection(direction);
+        }
+        else
+        {
+            Debug.LogError("Bolt object missing from casting");
+        }
+    }
+
     public void OutOfTIme()
     {
         if (_usedAdjustments.Count > 0)
         {
-            CastSpell();
+            CastSpellWithBulkAdjust();
         }
         else
         {

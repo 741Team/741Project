@@ -95,6 +95,7 @@ public class AnimateGridLines : MonoBehaviour
         {
             
             LineRenderer l = horizontalLines[i];
+            l.positionCount = (int)_lineAccuracy;
             GameObject startTile = gridManager.GetTile(i, 0);
             GameObject endTile = gridManager.GetTile(i, grid[i].Length - 1);
             float tileScale = startTile.transform.localScale.x;
@@ -123,6 +124,7 @@ public class AnimateGridLines : MonoBehaviour
         for (int j = 0; j < grid.Length; j++)
         {
             LineRenderer lineRenderer = verticalLines[j];
+            lineRenderer.positionCount = (int)_lineAccuracy;
             GameObject startTile = gridManager.GetTile(0, j);
             GameObject endTile = gridManager.GetTile(grid[0].Length - 1, j);
             float tileScale = startTile.transform.localScale.z;
@@ -165,6 +167,11 @@ public class AnimateGridLines : MonoBehaviour
     public void EnableLines()
     {
         lineStorage.SetActive(true);
+        Invoke("AdjustAndAnimateLines", 0.1f);
+    }
+
+    private void AdjustAndAnimateLines()
+    {
         AdjustLinePoints();
         foreach (LineRenderer l in horizontalLines)
         {

@@ -9,13 +9,13 @@ public class Bolt : MonoBehaviour
     [SerializeField]
     List<Adjustment> _adjustments = new List<Adjustment>();
     [SerializeField]
-    List<Tile> _points = new List<Tile>();
+    public List<Tile> _points = new List<Tile>();
     [SerializeField]
     float _speed;
     int _currentPoint;
     GridManager _gridManager;
-    Tile _currentTile;
-    Vector2 _direction;
+    public Tile _currentTile;
+    public Vector2 _direction;
     bool _ended;
     bool _started;
     bool pointChecked;
@@ -24,6 +24,40 @@ public class Bolt : MonoBehaviour
     List<Adjustment> remainingAdjustments;
     List<Tile> _splitPoints = new List<Tile>();
     List<GameObject> _splitBolts = new List<GameObject>();
+
+
+    public void ApplySprite(Adjustment adjustment)
+    {
+        Sprite sprite = adjustment.GetSprite();
+        Transform spriteSpot = _currentTile.GetSpriteSpot();
+        float height = _terrain.SampleHeight(spriteSpot.position);
+        spriteSpot.position = new Vector3(spriteSpot.position.x, height + 2.5f, spriteSpot.position.z);
+        spriteSpot.GetComponent<SpriteRenderer>().sprite = sprite;
+        float rotation = 0;
+        if (_direction == Vector2.up)
+        {
+            rotation = 0;
+        }
+        else if (_direction == Vector2.right)
+        {
+            rotation = 90;
+        }
+        else if (_direction == Vector2.down)
+        {
+            rotation = 180;
+        }
+        else if (_direction == Vector2.left)
+        {
+            rotation = 270;
+        }
+
+        if (_inverse)
+        {
+            rotation += 180;
+        }
+
+        spriteSpot.rotation = Quaternion.Euler(0, rotation, 0);
+    }
 
     public void OnCreate()
     {
@@ -53,6 +87,25 @@ public class Bolt : MonoBehaviour
         _adjustments = adjustments;
     }
 
+    public void AddAdjustment(Adjustment adjustment)
+    {
+        _adjustments.Add(adjustment);
+    }
+
+    public void ApplySingleAdjustment(Adjustment adjustment)
+    {
+        if (_splitBolts.Count > 0)
+        {
+            foreach (GameObject bolt in _splitBolts)
+            {
+                bolt.GetComponent<Bolt>().ApplySingleAdjustment(adjustment);
+            }
+        }
+        _adjustments.Add(adjustment);
+        ApplySprite(adjustment);
+        adjustment.AdjustSpell(ref _currentTile, ref _direction, ref _points, _gridManager, this);
+    }
+
     public void SetCurrentTile(Tile tile)
     {
         _currentTile = tile;
@@ -73,6 +126,7 @@ public class Bolt : MonoBehaviour
         foreach (Adjustment a in _adjustments)
         {
 
+            ApplySprite(a);
             a.AdjustSpell(ref _currentTile, ref _direction, ref _points, _gridManager, this);
 
 
@@ -86,6 +140,13 @@ public class Bolt : MonoBehaviour
         transform.position = pos;
         GetComponentInChildren<TrailRenderer>().enabled = true;
         _started = true;
+        foreach(GameObject bolt in _splitBolts)
+        {
+            if (bolt != null)
+            {
+                bolt.GetComponent<Bolt>().FireBolt();
+            }
+        }
     }
 
     private void Update()
@@ -108,7 +169,10 @@ public class Bolt : MonoBehaviour
                     if(_splitPoints.Contains(_points[_currentPoint + 1]))
                     {
                         int index = _splitPoints.IndexOf(_points[_currentPoint + 1]);
-                        _splitBolts[index].GetComponent<Bolt>().FireBolt();
+                        if(_splitBolts[index] != null)
+                        {
+                            _splitBolts[index].GetComponent<Bolt>().FireBolt();
+                        }
                     }
                     _currentPoint += 1;
                     pointChecked = false;
@@ -117,6 +181,29 @@ public class Bolt : MonoBehaviour
             else
             {
                 _ended = true;
+                List<GameObject> deadBolts = new List<GameObject>();
+                foreach (GameObject bolt in _splitBolts)
+                {
+                    if (bolt != null)
+                    {
+                        if (!bolt.GetComponent<Bolt>().IsBoltEnded())
+                        {
+                            _ended = false;
+                        }
+                    }
+                    else
+                    {
+                        deadBolts.Add(bolt);
+                    }
+                }
+                foreach (GameObject bolt in deadBolts)
+                {
+                    _splitBolts.Remove(bolt);
+                }
+                if (!_ended)
+                {
+                    return;
+                }
                 _started = false;
                 Invoke("DestroyBolt", 0.1f);
             }

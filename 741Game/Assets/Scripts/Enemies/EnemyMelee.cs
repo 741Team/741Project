@@ -19,6 +19,7 @@ public class EnemyMelee : EnemyBase
     [SerializeField] private float damage;
     [SerializeField] private float knockbackForce;
     bool attacking;
+    bool frozen;
 
 
 
@@ -35,15 +36,39 @@ public class EnemyMelee : EnemyBase
             swordHit = GetComponentInChildren<SwordHit>();
         }
         swordHit.SetSword(damage, knockbackForce, transform);
+        frozen = false;
 
         ///Setup movement loop
         StartCoroutine(MoveToPlayer());
     }
 
+    public override void Freeze()
+    {
+        base.Freeze();
+        frozen = true;
+        if (attacking)
+        {
+            animator.speed = 0;
+            StopCoroutine(AttackCooldown());
+        }
+
+    }
+
+    public override void Unfreeze()
+    {
+        base.Unfreeze();
+        frozen = false;
+        if (attacking)
+        {
+            animator.speed = 1;
+            StartCoroutine(AttackCooldown());
+        }
+    }
+
     public override void Update()
     {
         base.Update();
-        if (hittable)
+        if (hittable && !frozen)
         {
             if (inMeleeRange && !attacking)
             {
@@ -72,8 +97,11 @@ public class EnemyMelee : EnemyBase
     private IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(attackCooldown);
-        allowedToMove = true;
-        attacking = false;
+        if (!frozen)
+        {
+            allowedToMove = true;
+            attacking = false;
+        }
     }
 
     private IEnumerator MoveToPlayer()
