@@ -39,13 +39,23 @@ public class ExitFocus : MonoBehaviour
         _focusMode.enabled = false;
         _enterFocus.enabled = true;
         _movement.Unfreeze();
+        _movement.SwitchToMainCam();
         foreach (EnemyBase enemy in EnemyManager.singleton.GetEnemyList())
         {
+            enemy.SetOccupant(false);
             enemy.Unfreeze();
         }
         if (ItemManager.singleton.adjustmentBar != null)
         {
             ItemManager.singleton.adjustmentBar.SetActive(false);
+        }
+        if (ItemManager.singleton.castReady != null)
+        {
+            ItemManager.singleton.castReady.enabled = false;
+        }
+        if (ItemManager.singleton.castNotReady != null)
+        {
+            ItemManager.singleton.castNotReady.enabled = true;
         }
         enabled = false;
     }

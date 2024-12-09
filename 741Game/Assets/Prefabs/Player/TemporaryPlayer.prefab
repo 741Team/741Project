@@ -526,7 +526,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952549203588191766}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -603,12 +603,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f05d6dfba7ac344a1a2b4c8dc623d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 1
+  speedMagnitudeCap: 5
   jumpForce: 7
   maxHealth: 100
   immunityTime: 1
   dashTime: 0.5
-  dashPower: 10
+  dashPower: 15
   dashCooldown: 1
   dashKey: 304
   damage: 35
@@ -618,6 +619,7 @@ MonoBehaviour:
   maxFocus: 100
   focusDecreaseRate: 1
   focusRefreshRate: 1
+  focusMin: 0
   focusBar: {fileID: 0}
   rb: {fileID: 7293593599404402078}
   healthBar: {fileID: 0}
@@ -636,6 +638,8 @@ MonoBehaviour:
   footstepRate: 0.5
   swordSound: {fileID: 8300000, guid: e20c4c599dd760243baaea4baacd621e, type: 3}
   castSound: {fileID: 8300000, guid: 5505a797fe4539e4abc2e566deb53967, type: 3}
+  mainCamera: {fileID: 0}
+  focusCamera: {fileID: 0}
   look: {x: 0, y: 0, z: 0}
 --- !u!96 &2350464988573168775
 TrailRenderer:

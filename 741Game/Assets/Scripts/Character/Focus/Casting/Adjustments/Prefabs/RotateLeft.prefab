@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputKey: 119
+  _sprite: {fileID: 21300000, guid: d3e6929f83578414b8ec6eb8ff6b0799, type: 3}
+  focusCost: 5

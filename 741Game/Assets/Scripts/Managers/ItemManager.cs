@@ -13,6 +13,8 @@ public class ItemManager : MonoBehaviour
     public Bar focusBar;
     public Bar healthBar;
     public GameObject adjustmentBar;
+    public Image castReady;
+    public Image castNotReady;
 
     protected void Awake()
     {
@@ -20,6 +22,10 @@ public class ItemManager : MonoBehaviour
         if (adjustmentBar != null)
         {
             adjustmentBar.SetActive(false);
+        }
+        if(castReady != null)
+        {
+            castReady.enabled = false;
         }
     }
 }

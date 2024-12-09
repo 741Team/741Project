@@ -5023,4 +5023,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _adjustments: []
   _points: []
-  _speed: 50
+  _speed: 25
+  _currentTile: {fileID: 0}
+  _direction: {x: 0, y: 0}
