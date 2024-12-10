@@ -6,8 +6,11 @@ using UnityEngine.SceneManagement;
 public class LevelTeleporter : MonoBehaviour
 {
     [SerializeField] private string level;
+    [SerializeField] public Vector3 position;
 
     private bool teleporting;
+
+    private TransitionController TC;
 
     private void Start()
     {
@@ -27,5 +30,11 @@ public class LevelTeleporter : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(level);
+    }
+
+    private void Awake()
+    {
+        TC = FindObjectOfType<TransitionController>();
+        TC.NewScene();
     }
 }
