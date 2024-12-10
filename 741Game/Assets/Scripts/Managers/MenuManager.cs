@@ -19,6 +19,6 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Village_Quest_Test");
+        SceneManager.LoadScene("Village_Final");
     }
 }

@@ -5863,7 +5863,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7340923029657407065, guid: 9d5db83f40e98b342b55553380acce70, type: 3}
       propertyPath: level
-      value: Village_Quest_Test
+      value: Village_Final
+      objectReference: {fileID: 0}
+    - target: {fileID: 7340923029657407065, guid: 9d5db83f40e98b342b55553380acce70, type: 3}
+      propertyPath: position.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7340923029657407065, guid: 9d5db83f40e98b342b55553380acce70, type: 3}
+      propertyPath: position.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7340923029657407065, guid: 9d5db83f40e98b342b55553380acce70, type: 3}
+      propertyPath: position.z
+      value: 549
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

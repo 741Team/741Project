@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Village_Quest_Test.unity
-    guid: 742d693eb38639043bc36c0738f77832
+    path: Assets/Scenes/MainMenu.unity
+    guid: e5fa2331c1151c344963b236759bb984
   - enabled: 1
-    path: Assets/Scenes/Gloomy_Wood_Quest_Test.unity
-    guid: bc20afcceb8d59843b6432c0bde581bc
+    path: Assets/Scenes/Village_Final.unity
+    guid: 5afb1382905f0704dbbe267e032d6e7b
+  - enabled: 1
+    path: Assets/Scenes/Gloomy_Wood_Final.unity
+    guid: 27adb51b9848cfd45aaece484b767f30
   m_configObjects: {}

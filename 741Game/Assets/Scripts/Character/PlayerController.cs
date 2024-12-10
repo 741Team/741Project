@@ -214,7 +214,14 @@ public class PlayerController : MonoBehaviour, IFreezable
         mousePos.x = mousePos.x - objectPos.x;
         mousePos.y = mousePos.y - objectPos.y;
         float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
+        if (Woods == true)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
+        }
+        else if (Village == true)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, (-angle)+270f, 0));
+        }
 
         //Calculate the direction vector based on the rotation and movement input
         Vector3 direction = new Vector3(movement.x, 0, movement.z);
