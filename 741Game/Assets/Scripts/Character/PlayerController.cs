@@ -231,9 +231,13 @@ public class PlayerController : MonoBehaviour, IFreezable
         right.y = 0;
         forward.Normalize();
         right.Normalize();
-        Vector3 moveDirection = forward * direction.z + right * direction.x;
+        Vector3 moveDirection = forward * direction.z + right  * direction.x;
 
         //Set the character's animation direction
+        if (Village == true)
+        {
+            moveDirection = forward * direction.z + (right * -1) * direction.x;
+        }
         _characterAnimations.SetRunDirection(moveDirection);
     }
 
@@ -308,7 +312,7 @@ public class PlayerController : MonoBehaviour, IFreezable
         {
             if(footstepTimer <= 0)
             {
-                audioSource.PlayOneShot(footstep, 0.5f);
+                audioSource.PlayOneShot(footstep, 0.2f);
                 footstepTimer = footstepRate;
             }
             else
