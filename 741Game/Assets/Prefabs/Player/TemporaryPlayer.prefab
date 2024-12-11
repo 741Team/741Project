@@ -635,7 +635,7 @@ MonoBehaviour:
   Woods: 1
   audioSource: {fileID: 2249555783856146646}
   footstep: {fileID: 8300000, guid: 3588b7e5126ef0e4bb9df7cfe94e1c2f, type: 3}
-  footstepRate: 0.5
+  footstepRate: 0.3
   swordSound: {fileID: 8300000, guid: e20c4c599dd760243baaea4baacd621e, type: 3}
   castSound: {fileID: 8300000, guid: 5505a797fe4539e4abc2e566deb53967, type: 3}
   mainCamera: {fileID: 0}
