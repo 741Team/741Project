@@ -186,7 +186,9 @@ public class PlayerController : MonoBehaviour, IFreezable
             if (!dashing)
             {
                 rb.AddForce(movement * speed, ForceMode.VelocityChange);
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, speedMagnitudeCap);
+                Vector2 velocity = new Vector2(rb.velocity.x, rb.velocity.z);
+                velocity = Vector2.ClampMagnitude(velocity, speedMagnitudeCap);
+                rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.y);
             }
 
             FootstepSounds();
@@ -231,13 +233,8 @@ public class PlayerController : MonoBehaviour, IFreezable
         right.y = 0;
         forward.Normalize();
         right.Normalize();
-        Vector3 moveDirection = forward * direction.z + right  * direction.x;
+        Vector3 moveDirection = forward * direction.z + (right * -1) * direction.x;
 
-        //Set the character's animation direction
-        if (Village == true)
-        {
-            moveDirection = forward * direction.z + (right * -1) * direction.x;
-        }
         _characterAnimations.SetRunDirection(moveDirection);
     }
 
