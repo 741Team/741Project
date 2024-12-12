@@ -64,7 +64,11 @@ public class Tile : MonoBehaviour
         }
         else if(other.gameObject.tag == "Enemy")
         {
-            if(other.gameObject.GetComponent<EnemyBase>() != null && other.gameObject.GetComponent<EnemyBase>().GetOccupant())
+            if(other.gameObject.GetComponent<EnemyBase>() == null)
+            {
+                return;
+            }
+            if(other.gameObject.GetComponent<EnemyBase>().GetOccupant())
             {
                 return;
             }
