@@ -35,6 +35,9 @@ public class LevelTeleporter : MonoBehaviour
     private void Awake()
     {
         TC = FindObjectOfType<TransitionController>();
-        TC.NewScene();
+        if (TC != null)
+        {
+            TC.NewScene();
+        }
     }
 }

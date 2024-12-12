@@ -19,7 +19,8 @@ public class Bolt : MonoBehaviour
     bool _ended;
     bool _started;
     bool pointChecked;
-    bool _inverse;      
+    bool _inverse;
+    bool firstSpiltCheck;
     Terrain _terrain;
     List<Adjustment> remainingAdjustments;
     List<Tile> _splitPoints = new List<Tile>();
@@ -51,12 +52,13 @@ public class Bolt : MonoBehaviour
             rotation = 270;
         }
 
+
+        spriteSpot.localRotation = Quaternion.Euler(0, 0, 0);
+        spriteSpot.Rotate(0, 0, -rotation);
         if (_inverse)
         {
-            rotation += 180;
+            spriteSpot.Rotate(new Vector3(0, 180, 0), Space.Self);
         }
-
-        spriteSpot.rotation = Quaternion.Euler(0, rotation, 0);
     }
 
     public void OnCreate()
@@ -75,6 +77,7 @@ public class Bolt : MonoBehaviour
             _points.Add(_gridManager.GetPlayerTile());
             _terrain = _gridManager.GetTerrain();
         }
+        firstSpiltCheck = false;
     }
 
     public void SetDirection(Vector2 dir)
@@ -140,13 +143,6 @@ public class Bolt : MonoBehaviour
         transform.position = pos;
         GetComponentInChildren<TrailRenderer>().enabled = true;
         _started = true;
-        foreach(GameObject bolt in _splitBolts)
-        {
-            if (bolt != null)
-            {
-                bolt.GetComponent<Bolt>().FireBolt();
-            }
-        }
     }
 
     private void Update()
@@ -159,7 +155,19 @@ public class Bolt : MonoBehaviour
                 pointChecked = true;
 
             }
-            if (_currentPoint + 1 < _points.Count)
+            if (_currentPoint == 0 && !firstSpiltCheck)
+            {
+                if (_splitPoints.Contains(_points[_currentPoint]))
+                {
+                    int index = _splitPoints.IndexOf(_points[_currentPoint]);
+                    if (_splitBolts[index] != null)
+                    {
+                        _splitBolts[index].GetComponent<Bolt>().FireBolt();
+                    }
+                }
+                firstSpiltCheck = true;
+            }
+                if (_currentPoint + 1 < _points.Count)
             {
                 float pointHeight = _terrain.SampleHeight(_points[_currentPoint + 1].transform.position) + 0.5f;
                 Vector3 pointPosition = new Vector3(_points[_currentPoint + 1].transform.position.x, pointHeight, _points[_currentPoint + 1].transform.position.z);
