@@ -10,6 +10,10 @@ public class EnemyRanged : EnemyBase
 
     [SerializeField] private Aimer aimer;
 
+    [SerializeField] private PlayerDetector pd2;
+
+    [SerializeField] private bool playerInRange2;
+
     public override void Start()
     {
         base.Start();
@@ -20,10 +24,11 @@ public class EnemyRanged : EnemyBase
     public override void Update()
     {
         base.Update();
+        playerInRange2 = pd2.playerInRange;
         if (hittable)
         {
             //If in range, look at player
-            if (playerInRange && allowedToMove)
+            if (playerInRange || playerInRange2 && allowedToMove)
             {
                 animator.SetBool("PlayerInRange", true);
                 base.SetPlayerPosition();
@@ -40,7 +45,7 @@ public class EnemyRanged : EnemyBase
     private IEnumerator Aiming()
     {
         //If in range, wait, and then shoot
-        if (playerInRange && allowedToMove)
+        if (playerInRange || playerInRange2 && allowedToMove)
         {
             yield return new WaitForSeconds(reloadTime);
             if (hittable && allowedToMove)

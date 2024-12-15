@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour, IFreezable
 {
     [Header("Movement Attributes")]
     [SerializeField] private float speed;
+    [SerializeField] private float speedMagnitudeCap;
     [SerializeField] private float jumpForce;
     private bool AllowedToMove;
     private bool AllowedToJump;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour, IFreezable
     [SerializeField] protected float maxFocus;
     [SerializeField] protected float focusDecreaseRate;
     [SerializeField] protected float focusRefreshRate;
+    [SerializeField] protected float focusMin;
     protected float focus;
 
     [Header("Components")]
@@ -64,6 +66,10 @@ public class PlayerController : MonoBehaviour, IFreezable
     private float footstepTimer;
     [SerializeField] private AudioClip swordSound;
     [SerializeField] private AudioClip castSound;
+
+    [Header("Cameras")]
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera mainCamera;
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera focusCamera;
 
     [Header("Debug")]
     [SerializeField] Vector3 look;
@@ -165,42 +171,8 @@ public class PlayerController : MonoBehaviour, IFreezable
                 StartCoroutine(Attack());
             }
 
-            //Set rotation vectors for isometric movement
-            /*
-            if (movement.x == 1 & movement.z == 1)
-            {
-                look = new Vector3(0, 45, 0);
-            }
-            else if (movement.x == 1 & movement.z == 0)
-            {
-                look = new Vector3(0, 90, 0);
-            }
-            else if (movement.x == 1 & movement.z == -1)
-            {
-                look = new Vector3(0, 135, 0);
-            }
-            else if (movement.x == 0 & movement.z == -1)
-            {
-                look = new Vector3(0, 180, 0);
-            }
-            else if (movement.x == -1 & movement.z == -1)
-            {
-                look = new Vector3(0, 225, 0);
-            }
-            else if (movement.x == -1 & movement.z == 0)
-            {
-                look = new Vector3(0, 270, 0);
-            }
-            else if (movement.x == -1 & movement.z == 1)
-            {
-                look = new Vector3(0, 315, 0);
-            }
-            else if (movement.x == 0 & movement.z == 1)
-            {
-                look = new Vector3(0, 360, 0);
-            }*/
 
-            UpdateMousePosition();
+            UpdateMouseScreenSpace();
 
             if (_characterAnimations != null)
             {
@@ -209,39 +181,61 @@ public class PlayerController : MonoBehaviour, IFreezable
 
             ChangeFocus(focusRefreshRate * Time.deltaTime);
 
-            rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+
+
+            if (!dashing)
+            {
+                rb.AddForce(movement * speed, ForceMode.VelocityChange);
+                Vector2 velocity = new Vector2(rb.velocity.x, rb.velocity.z);
+                velocity = Vector2.ClampMagnitude(velocity, speedMagnitudeCap);
+                rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.y);
+            }
 
             FootstepSounds();
+
+            if(focus >= focusMin)
+            {
+                ItemManager.singleton.castReady.enabled = true;
+                ItemManager.singleton.castNotReady.enabled = false;
+            }
+            else
+            {
+                ItemManager.singleton.castReady.enabled = false;
+                ItemManager.singleton.castNotReady.enabled = true;
+            }
         }
 
     }
 
-    void UpdateMousePosition()
+    void UpdateMouseScreenSpace()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, groundLayers))
+        //Get the mouse position on the screen and set the player rotation accordingly
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10;
+        Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+        mousePos.x = mousePos.x - objectPos.x;
+        mousePos.y = mousePos.y - objectPos.y;
+        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        if (Woods == true)
         {
-            Vector3 target = hit.point;
-            target.y = transform.position.y;
-
-            // Make the character face the target point
-            transform.LookAt(target);
-
-            // Calculate the normalized direction vector
-            Vector3 direction = (target - transform.position).normalized;
-
-            // Calculate the forward and right components using dot products
-            float forward = Vector3.Dot(movement.normalized, direction);
-            float right = Vector3.Dot(movement.normalized, Vector3.Cross(Vector3.up, direction));
-
-            // Ensure forward and right values are in the range [-1, 1] (optional, based on requirements)
-            forward = Mathf.Clamp(forward, -1f, 1f);
-            right = Mathf.Clamp(right, -1f, 1f);
-
-            // Set the character's animation direction
-            _characterAnimations.SetRunDirection(new Vector3(right, 0, forward));
+            transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
         }
+        else if (Village == true)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, (-angle)+270f, 0));
+        }
+
+        //Calculate the direction vector based on the rotation and movement input
+        Vector3 direction = new Vector3(movement.x, 0, movement.z);
+        Vector3 forward = transform.forward;
+        Vector3 right = transform.right;
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+        Vector3 moveDirection = forward * direction.z + (right * -1) * direction.x;
+
+        _characterAnimations.SetRunDirection(moveDirection);
     }
 
     /*
@@ -285,7 +279,7 @@ public class PlayerController : MonoBehaviour, IFreezable
         {
             dashDirection = transform.forward;
         }
-        rb.AddForce(dashDirection * dashPower, ForceMode.Impulse);
+        rb.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
         trail.emitting = true;
         dashing = true;
         yield return new WaitForSeconds(dashTime);
@@ -315,7 +309,7 @@ public class PlayerController : MonoBehaviour, IFreezable
         {
             if(footstepTimer <= 0)
             {
-                audioSource.PlayOneShot(footstep, 0.5f);
+                audioSource.PlayOneShot(footstep, 0.2f);
                 footstepTimer = footstepRate;
             }
             else
@@ -335,7 +329,7 @@ public class PlayerController : MonoBehaviour, IFreezable
             _characterAnimations.Attack();
         }
         audioSource.PlayOneShot(swordSound);
-        rb.AddForce(transform.forward * 5, ForceMode.Impulse);
+        rb.AddForce(transform.forward * 7, ForceMode.Impulse);
         var swordRenderer = sword.GetComponentInChildren<Renderer>();
         swordTrail.StartTrail();
         Color red = new Color(1f, 0f, 0f, 1f);
@@ -400,5 +394,27 @@ public class PlayerController : MonoBehaviour, IFreezable
         StartCoroutine(Hit(damage, knockBackForce, attacker));
 
 
+    }
+
+    public void SwitchToFocusCam()
+    {
+        if(focusCamera != null)
+        {
+            focusCamera.Priority = 20;
+        }
+
+    }
+
+    public void SwitchToMainCam()
+    {
+        if (focusCamera != null)
+        {
+            focusCamera.Priority = 0;
+        }
+    }
+
+    public bool CanEnterFocus()
+    {
+        return focus >= focusMin;
     }
 }

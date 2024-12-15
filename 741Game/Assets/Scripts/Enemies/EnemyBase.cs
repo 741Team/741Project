@@ -22,10 +22,12 @@ public class EnemyBase : MonoBehaviour, IFreezable
     protected Vector3 playerPosition;
     [SerializeField] private float focusOnHit;
     [SerializeField] private ParticleSystem boltParticle;
+    bool isOccupant;    
 
     public virtual void Start()
     {
-        if(EnemyManager.singleton != null)
+        isOccupant = false;
+        if (EnemyManager.singleton != null)
         {
             EnemyManager.singleton.AddEnemy(this);
         }
@@ -76,6 +78,7 @@ public class EnemyBase : MonoBehaviour, IFreezable
     private void Death()
     {
         animator.SetBool("Dead", true);
+        EnemyManager.singleton.enemyList.Remove(this);
         Destroy(HealthBar);
         Destroy(this);
     }
@@ -91,12 +94,12 @@ public class EnemyBase : MonoBehaviour, IFreezable
         boltParticle.Play();
     }
 
-    public void Freeze()
+    public virtual void Freeze()
     {
         allowedToMove = false;
     }
 
-    public void Unfreeze()
+    public virtual void Unfreeze()
     {
         allowedToMove = true;
     }
@@ -104,5 +107,15 @@ public class EnemyBase : MonoBehaviour, IFreezable
     public void SetPlayerPosition()
     {
         playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+    }
+
+    public void SetOccupant(bool _occupied)
+    {
+        isOccupant = _occupied;
+    }
+
+    public bool GetOccupant()
+    {
+        return isOccupant;
     }
 }

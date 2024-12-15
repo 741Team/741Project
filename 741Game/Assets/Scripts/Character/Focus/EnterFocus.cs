@@ -24,12 +24,13 @@ public class EnterFocus : MonoBehaviour
     {
         if (_focusMode != null)
         {
-            if (Input.GetKeyDown(_inputKey) && playerController.IsAllowedToMove())
+            if (Input.GetKeyDown(_inputKey) && playerController.IsAllowedToMove() && playerController.CanEnterFocus())
             {
                 _characterAnimations.EnterFocus();
                 _focusMode.enabled = true;
                 _exitFocus.enabled = true;
                 playerController.Freeze();
+                playerController.SwitchToFocusCam();
                 foreach(EnemyBase enemy in EnemyManager.singleton.GetEnemyList())
                 {
                     enemy.Freeze();
@@ -38,6 +39,15 @@ public class EnterFocus : MonoBehaviour
                 {
                     ItemManager.singleton.adjustmentBar.SetActive(true);
                 }
+                if(ItemManager.singleton.castReady != null)
+                {
+                    ItemManager.singleton.castReady.enabled = false;
+                }
+                if (ItemManager.singleton.castNotReady != null)
+                {
+                    ItemManager.singleton.castNotReady.enabled = false;
+                }
+
                 enabled = false;
             }
         }

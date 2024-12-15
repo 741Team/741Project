@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputKey: 114
+  _sprite: {fileID: 21300000, guid: 59d96f748f336d641806f1bd437fa78f, type: 3}
+  focusCost: 20
 --- !u!114 &-8278098874762249352
 MonoBehaviour:
   m_ObjectHideFlags: 0

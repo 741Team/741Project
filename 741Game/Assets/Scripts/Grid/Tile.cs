@@ -8,6 +8,8 @@ public class Tile : MonoBehaviour
     GameObject _occupant;
     SpriteRenderer spriteRenderer;
     GridManager _gridManager;
+    [SerializeField]
+    Transform _spriteSpot;
 
     public int _x;
     public int _y;
@@ -34,6 +36,7 @@ public class Tile : MonoBehaviour
     {
         _occupant = occupant;
         _isWalkable = false;
+
     }   
 
     public void RemoveOccupant()
@@ -47,6 +50,11 @@ public class Tile : MonoBehaviour
         return _occupant;
     }
 
+    public Transform GetSpriteSpot()
+    {
+        return _spriteSpot;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -56,8 +64,22 @@ public class Tile : MonoBehaviour
         }
         else if(other.gameObject.tag == "Enemy")
         {
+            if(other.gameObject.GetComponent<EnemyBase>() == null)
+            {
+                return;
+            }
+            if(other.gameObject.GetComponent<EnemyBase>().GetOccupant())
+            {
+                return;
+            }
+            other.gameObject.GetComponent<EnemyBase>().SetOccupant(true);
             SetOccupant(other.gameObject);
         }
+    }
+
+    private void OnDisable()
+    {
+        _spriteSpot.GetComponent<SpriteRenderer>().sprite = null;
     }
 
     public void SetXAndY(int x, int y)
