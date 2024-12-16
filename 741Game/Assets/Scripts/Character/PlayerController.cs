@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviour, IFreezable
     private float footstepTimer;
     [SerializeField] private AudioClip swordSound;
     [SerializeField] private AudioClip castSound;
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip dashSound;
 
     [Header("Cameras")]
     [SerializeField] private Cinemachine.CinemachineVirtualCamera mainCamera;
@@ -275,6 +277,10 @@ public class PlayerController : MonoBehaviour, IFreezable
         DashBar.SetActive(true);
         dashBar.SetValue(0);
         Vector3 dashDirection = new Vector3(movement.x, 0, movement.z);
+        if(dashSound != null)
+        {
+            audioSource.PlayOneShot(dashSound);
+        }
         if (dashDirection == Vector3.zero)
         {
             dashDirection = transform.forward;
@@ -344,6 +350,10 @@ public class PlayerController : MonoBehaviour, IFreezable
 
     private IEnumerator Hit(float damage, float knockBackForce, Transform attacker)
     {
+        if(hitSound != null)
+        {
+            audioSource.PlayOneShot(hitSound);
+        }
         health = health - damage;
         healthBar.Decrease(damage);
         Vector3 direction = (transform.position - attacker.position).normalized;
