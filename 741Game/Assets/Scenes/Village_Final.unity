@@ -13462,7 +13462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2498486167843554908, guid: d78f0a84bf2a1c940929c4cc1c8e8df4, type: 3}
       propertyPath: dialogue.scentences.Array.data[2]
-      value: I lost my necklace when I was walking in the Gloomy Woods.
+      value: I lost my necklace when I was walking in Ghruamach Forest
       objectReference: {fileID: 0}
     - target: {fileID: 2498486167843554908, guid: d78f0a84bf2a1c940929c4cc1c8e8df4, type: 3}
       propertyPath: dialogue.scentences.Array.data[3]
