@@ -7,6 +7,8 @@ public class Arrow : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float speed;
     [SerializeField] private float maxLifetime;
+    [SerializeField] private float damage;
+    [SerializeField] private float knockback;
 
     public void Project(Vector3 direction)
     {
@@ -19,7 +21,8 @@ public class Arrow : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            Destroy(this.gameObject);
+            collision.GetComponent<PlayerController>().OnHitByEnemy(damage, knockback, transform);
+            Destroy(this.gameObject, 0.1f);
         }
     }
 }
