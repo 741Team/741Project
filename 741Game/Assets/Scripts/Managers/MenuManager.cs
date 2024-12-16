@@ -21,4 +21,9 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Village_Final");
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }

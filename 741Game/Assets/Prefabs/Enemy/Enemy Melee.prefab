@@ -5451,7 +5451,7 @@ MonoBehaviour:
   inMeleeRange: 0
   swordHit: {fileID: 1792319976402009731}
   damage: 20
-  knockbackForce: 5
+  knockbackForce: 1000
 --- !u!136 &8024506686681081404
 CapsuleCollider:
   m_ObjectHideFlags: 0

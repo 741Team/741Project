@@ -45,7 +45,7 @@ public class SwordHit : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                other.gameObject.GetComponent<PlayerController>().OnEnemyHit(Damage, knockbackForce, Holder);
+                other.gameObject.GetComponent<PlayerController>().OnHitByEnemy(Damage, knockbackForce, Holder);
                 if(hitSound != null)
                 {
                     hitSound.Play();

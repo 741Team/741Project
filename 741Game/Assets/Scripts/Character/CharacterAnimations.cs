@@ -22,6 +22,15 @@ public class CharacterAnimations : MonoBehaviour
         _defaultAttackTime = time;
     }
 
+    public void Die()
+    {
+        _anim.SetBool("Dead", true);
+    }
+
+    public void SetHit()
+    {
+        _anim.SetTrigger("Hit");
+    }
     public void SetRunDirection(Vector3 direction)
     {
         _anim.SetFloat("Right", direction.x);

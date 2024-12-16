@@ -142,6 +142,18 @@ public class PlayerController : MonoBehaviour, IFreezable
 
     void Update()
     {
+        if(health <= 0)
+        {
+            if(_characterAnimations != null)
+            {
+                _characterAnimations.Die();
+                AllowedToMove = false;
+            }
+            if(ItemManager.singleton.gameOver != null)
+            {
+                ItemManager.singleton.gameOver.gameObject.SetActive(true);
+            }
+        }
         if (AllowedToMove)
         {
             if (Input.GetKeyDown(dashKey) & canDash)
@@ -350,6 +362,10 @@ public class PlayerController : MonoBehaviour, IFreezable
 
     private IEnumerator Hit(float damage, float knockBackForce, Transform attacker)
     {
+        if (_characterAnimations != null)
+        {
+            _characterAnimations.SetHit();
+        }
         if(hitSound != null)
         {
             audioSource.PlayOneShot(hitSound);
@@ -399,10 +415,9 @@ public class PlayerController : MonoBehaviour, IFreezable
     }
 
 
-    public void OnEnemyHit(float damage, float knockBackForce, Transform attacker)
+    public void OnHitByEnemy(float damage, float knockBackForce, Transform attacker)
     {
         StartCoroutine(Hit(damage, knockBackForce, attacker));
-
 
     }
 

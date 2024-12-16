@@ -15,6 +15,7 @@ public class ItemManager : MonoBehaviour
     public GameObject adjustmentBar;
     public Image castReady;
     public Image castNotReady;
+    public Image gameOver;
 
     protected void Awake()
     {
